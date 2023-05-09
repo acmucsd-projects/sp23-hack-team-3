@@ -22,7 +22,8 @@ const EventSchema = new mongoose.Schema (
             type : [String],
             required: false,
         },
-    }
+    },
+    {timestamps: true}
 );
 
 const Event = new mongoose.model('Event', EventSchema, "Event");
