@@ -1,5 +1,3 @@
-// const express = require('express');
-const mongoose = require('mongoose');
 const Event = require('../models/eventModel.js');
 
 
@@ -14,4 +12,49 @@ async function createEvent(EventObject) {
     }
 }
 
-module.exports = { createEvent };
+async function grabAllEvents() {
+    try 
+    {
+        const allEvents = await Event.find({});
+        return allEvents
+    }
+    catch (error) {
+        throw new Error(`Error in event creation: ${error.message}`);
+    }
+}
+
+async function grabEvent(eventId)
+{
+    try 
+    {
+        const singleEvent = await Event.find({ _id: eventId });
+        return singleEvent
+    }
+    catch (error) {
+        throw new Error(`Error in grabbing single event: ${error.message}`);
+    }
+}
+
+async function deleteEvent(eventId)
+{
+    try 
+    {
+        await Event.findByIdAndRemove(eventId);
+    }
+    catch (error) {
+        throw new Error(`Error in grabbing single event: ${error.message}`);
+    }
+}
+
+async function updateEvent(eventId, newEventInfo)
+{
+    try 
+    {
+        await Event.findOneAndUpdate({ "_id": eventId }, { "$set": newEventInfo});  
+    }
+    catch (error) {
+        throw new Error(`Error in updating event: ${error.message}`);
+    }
+}
+
+module.exports = { createEvent, grabAllEvents, grabEvent, deleteEvent, updateEvent };

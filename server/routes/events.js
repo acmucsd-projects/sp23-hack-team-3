@@ -24,7 +24,55 @@ router.post('/create', async function(req, res, next) {
     }
     catch(err)
     {
-        res.status(502).json({error: `Failed to create event: ${err.message}`});
+        res.status(400).json({error: `Failed to create event: ${err.message}`});
+    }
+});
+
+router.get('/all', async function(req, res, next) {
+    try {
+        const allEvents = await eventController.grabAllEvents();
+        res.status(200).json({data: allEvents});
+    }
+    catch(err)
+    {
+        res.status(400).json({error: `Failed to grab all events: ${err.message}`});
+    }
+});
+
+router.get('/find', async function(req, res, next) {
+    const eventId = req.query.id;
+    try {
+        const singleEvent = await eventController.grabEvent(eventId);
+        res.status(200).json({data: singleEvent});
+    }
+    catch(err)
+    {
+        res.status(400).json({error: `Failed to find event with id: ${eventId}`});
+    }
+});
+
+router.delete('/delete', async function(req, res, next) {
+    const eventId = req.query.id;
+    try {
+        await eventController.deleteEvent(eventId);
+        res.status(200).json({message: `Deleted event with id: ${eventId}`});
+    }
+    catch(err)
+    {
+        res.status(400).json({error: `Failed to delete event with id: ${eventId}`});
+    }
+});
+
+router.patch('/update', async function(req, res, next) {
+    const eventId = req.query.id;
+    const eventInfo = req.body;
+    try {
+        await eventController.updateEvent(eventId, eventInfo);
+        res.status(200).json({message: `Updated event with id: ${eventId}`});
+    }
+    catch(err)
+    {
+        res.status(400).json({error: `Failed to update event with id: ${eventId} Reason: ${err.message}`});
     }
 });
 
