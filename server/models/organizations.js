@@ -1,13 +1,16 @@
 console.log('Loading organizations schema...');
 const mongoose = require('mongoose');
 
-const OrgSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const OrgSchema = new Schema({
     id: {
         type: Number,
         required: true
     },
     admin: {
-        type: [String], // want to change to userSchema
+        type: [Schema.Types.ObjectID],
+        ref: 'User',
         required: true
     },
     orgName: {
@@ -18,11 +21,11 @@ const OrgSchema = new mongoose.Schema({
         type: [String],
     },
     events: {
-        type: [String], // want to change to eventsSchema
+        type: [Schema.Types.ObjectID],
+        ref: 'Event',
         required: true,
     }
 })
 
 const organization = mongoose.model('Organization', OrgSchema);
-
 module.exports = organization;
