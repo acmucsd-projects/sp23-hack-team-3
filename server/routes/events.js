@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Event = require('../models/eventModel.js');
 const eventController = require('../controllers/eventControllers.js');
 
 //actual routing, revamped (following charvi example code)
