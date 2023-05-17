@@ -1,17 +1,31 @@
-export default function Card( {title, flyerurl, date, time, building, room, description }) {
-    
-    <>
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
 
-    <img src={flyerurl} />
-    <div class="absolute border border-lg grid grid-rows-2 grid-cols-2">
-        <h2>{date}</h2>
-        <h2>{title}</h2>
-        <h2>{building} {room}</h2>
-        <h2>{time}</h2>
-    </div>
-    <div>
-        <h3>{description}</h3>
-    </div>
-    </>
-    
+export default function EventCard({test}) {
+  return (
+    <Card sx={{ maxWidth: "45vw", marginTop: "3.5vh"}}>
+      <CardActionArea>
+        <div style={{ display: "flex", position: "relative", alignItems: "center" }}>
+          <CardMedia
+            component="img"
+            sx={{ height: 150, padding: 2 }}
+            image="logo512.png"
+            alt=""
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {test}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Lizards are a widespread group of squamate reptiles, with over 6,000
+              species, ranging across all continents except Antarctica
+            </Typography>
+          </CardContent>
+        </div>
+      </CardActionArea>
+    </Card>
+  );
 }
