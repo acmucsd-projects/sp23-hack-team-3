@@ -16,7 +16,7 @@ const getOrganization = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({})
     }
-    if (!user) {
+    if (!organization) {
         return res.status(404).json({
             error: 'No such organization'
         })
@@ -30,7 +30,7 @@ const createOrganization = async (req, res) => {
         await Organization.create(newOrg);
     }
     catch (error) {
-        res.status(404).json({message: "error"});
+        res.status(404).json({message: "Error creating organization"});
     }
     res.status(200).json({message: "Organization created"});
     // const {organization} = req.body;
@@ -52,7 +52,7 @@ const deleteOrganizaiton = async (req, res) => {
     }
     catch(error)
     {
-        res.status(400).json({});
+        res.status(400).json({message: "Error deleting organization"});
     }
 }
 
@@ -61,10 +61,10 @@ const updateOrganization = async (req, res) => {
     const updatedInfo = req.body;
     try 
     {
-        await Event.findOneAndUpdate({ "_id": id }, { "$set": updatedInfo});  
+        await Organization.findOneAndUpdate({ "_id": id }, { "$set": updatedInfo});  
     }
     catch (error) {
-        res.status(404).json({});
+        res.status(404).json({message: "Error updating organization"});
     }
     res.status(200).json({message: "Update successful"});
 }
