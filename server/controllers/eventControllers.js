@@ -2,10 +2,14 @@ const Event = require('../models/eventModel.js');
 const mongoose = require('mongoose');
 
 const getEvents = async (req, res) => {
-    const users = await Event.find({}).sort({
+    const events = await Event.find({}).sort({
         createdAt: -1
     })
-    res.status(200).json(users)
+    for (x in events)
+    {
+        delete events[x].owner;
+    }
+    res.status(200).json(events)
 }
 
 const getEvent = async (req, res) => {

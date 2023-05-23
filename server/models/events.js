@@ -7,6 +7,10 @@ const EventSchema = new mongoose.Schema (
             type: String,
             required: true,
         },
+        owner: {
+            type: String,
+            required: true,
+        },
         date: {
             type: Date,
             required: true,
@@ -24,7 +28,6 @@ const EventSchema = new mongoose.Schema (
             required: false,
         },
     },
-    {timestamps: true}
 );
 
 module.exports = mongoose.model('Event', EventSchema);

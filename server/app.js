@@ -10,6 +10,8 @@ const usersRouter = require('./routes/users');
 const organizationsRouter = require('./routes/organizations');
 const eventRouter = require('./routes/events');
 
+const sessionHandler = require('./auth/session.js');
+
 const app = express();
 
 app.use(logger('dev'));
@@ -29,22 +31,15 @@ app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-
+//IGNORE THESE TEST ROUTES 
 app.get('/', async (req, res) => {
   res.status(200).json({message: "EMPTY ROUTE TEST"});
 });
-
-
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  return res.redirect('/');
-}
-app.get('/authtest', ensureAuthenticated, async (req, res) => {
+app.get('/authtest', sessionHandler.ensureAuthenticated, async (req, res) => {
   res.status(200).json({message: "YOU ARE LOGGED IN!"});
 });
 
+//ACTUAL EVENT SITE ROUTES
 app.use('/users', usersRouter);
 app.use('/events', eventRouter);
 app.use('/organizations', organizationsRouter);
