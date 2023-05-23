@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const passport = require('passport');
 
 const usersRouter = require('./routes/users');
+const organizationsRouter = require('./routes/organizations');
 const eventRouter = require('./routes/events');
 
 const app = express();
@@ -28,9 +29,11 @@ app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+
 app.get('/', async (req, res) => {
   res.status(200).json({message: "EMPTY ROUTE TEST"});
 });
+
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -44,6 +47,7 @@ app.get('/authtest', ensureAuthenticated, async (req, res) => {
 
 app.use('/users', usersRouter);
 app.use('/events', eventRouter);
+app.use('/organizations', organizationsRouter);
 dotenv.config();
 
 mongoose.connect(process.env.DB_URL, {
