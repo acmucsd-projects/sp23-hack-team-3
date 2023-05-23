@@ -11,7 +11,7 @@ const {
     updateOrganization,
 } = require('../controllers/organizationsController')
 
-const Organization = require('../models/organizations');
+// const Organization = require('../models/organizations');
 const router = express.Router();
 
 

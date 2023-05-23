@@ -1,18 +1,22 @@
 function ensureAuthenticated(req, res, next) 
 {
     if (req.isAuthenticated()) {
-      return next();
+      next();
     }
-    return res.redirect('/');
+    else {
+      return res.redirect('/');
+    }
 }
 
 function alreadyAuthenticated(req, res, next) 
 {
     if (req.isAuthenticated()) {
-      return res.redirect('localhost:3000');
+      return res.redirect('/');
     }
-    return next();
+    else {
+      next();
+    }
   
 }
 
-module.exports = {ensureAuthenticated, alreadyAuthenticated };
+module.exports = { ensureAuthenticated, alreadyAuthenticated };

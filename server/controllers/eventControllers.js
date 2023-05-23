@@ -1,15 +1,13 @@
 const Event = require('../models/eventModel.js');
+const Organization = require('../models/organizationModel');
 const mongoose = require('mongoose');
 
 const getEvents = async (req, res) => {
     const events = await Event.find({}).sort({
         createdAt: -1
     })
-    for (x in events)
-    {
-        delete events[x].owner;
-    }
-    res.status(200).json(events)
+    
+    res.status(200).json(events);
 }
 
 const getEvent = async (req, res) => {
@@ -34,26 +32,44 @@ const createEvent = async (req, res) => {
     const EventObject = req.body;
     try 
     {
+        //we first grab orgID associated with req.user._id, then attach to eventobject
+        const org = await Organization.find({ "userID": req.user._id});
+        EventObject.orgID = org[0]._id;
         await Event.create(EventObject);
     }
     catch (error) {
-        res.status(404).json({message: `Error in event creation: ${error.message}`});
+        return res.status(404).json({message: `Error in event creation: ${error.message}`});
     }
-    res.status(201).json({message: "Successful event creation"});
+    return res.status(201).json({message: "Successful event creation"});
 }
 
 const deleteEvent = async (req, res) => {
     const {
         id
     } = req.params
+
     try 
     {
+        //we have event's ID
+        //grab orgID from event
+        //with orgID, find Organization
+        //does org's userID array contain req.user._id? 
+        //if so, we can delete
+        //if not, or org just doesn't exist, we do not delete and say permissions aren't valid
+
+        const targetEvent = await Event.findById(id);
+        const orgID = targetEvent.orgID;
+        const targetOrg = await Organization.findById(mongoose.Types.ObjectId(orgID));
+        if (!targetOrg || !targetOrg.userID.includes(req.user._id))
+        {
+            throw new Error("You don't have permissions to delete this event");
+        }
         await Event.findByIdAndRemove(id);
     }
     catch (error) {
-        res.status(404).json({message: `Error in event deletion: ${error.message}`});
+        return res.status(404).json({message: `Error in event deletion: ${error.message}`});
     }
-    res.status(201).json({message: "Successful event deletion"});
+    return res.status(201).json({message: "Successful event deletion"});
 }
 
 const updateEvent = async (req, res) => {
@@ -63,67 +79,26 @@ const updateEvent = async (req, res) => {
     const newEventInfo = req.body;
     try 
     {
+        //we have event's ID
+        //grab orgID from event
+        //with orgID, find Organization
+        //does org's userID array contain req.user._id? 
+        //if so, we can update
+        //if not, or org just doesn't exist, we do not update and say permissions aren't valid
+        const targetEvent = await Event.findById(id);
+        const orgID = targetEvent.orgID;
+        const targetOrg = await Organization.findById(mongoose.Types.ObjectId(orgID));
+        if (!targetOrg || !targetOrg.userID.includes(req.user._id))
+        {
+            throw new Error("You don't have permissions to update this event");
+        }
+
         await Event.findOneAndUpdate({ "_id": id }, { "$set": newEventInfo});  
     }
     catch (error) {
-        res.status(404).json({message: `Error in event update: ${error.message}`});
+        return res.status(404).json({message: `Error in event update: ${error.message}`});
     }
-    res.status(200).json({message: "Successful event update"});
+    return res.status(200).json({message: "Successful event update"});
 }
-//creating event to db collection
-// async function createEvent(EventObject) {
-//     try 
-//     {
-//         await Event.create(EventObject);
-//     }
-//     catch (error) {
-//         throw new Error(`Error in event creation: ${error.message}`);
-//     }
-// }
-
-// async function grabAllEvents() {
-//     try 
-//     {
-//         const allEvents = await Event.find({});
-//         return allEvents
-//     }
-//     catch (error) {
-//         throw new Error(`Error in event creation: ${error.message}`);
-//     }
-// }
-
-// async function grabEvent(eventId)
-// {
-//     try 
-//     {
-//         const singleEvent = await Event.find({ _id: eventId });
-//         return singleEvent
-//     }
-//     catch (error) {
-//         throw new Error(`Error in grabbing single event: ${error.message}`);
-//     }
-// }
-
-// async function deleteEvent(eventId)
-// {
-//     try 
-//     {
-//         await Event.findByIdAndRemove(eventId);
-//     }
-//     catch (error) {
-//         throw new Error(`Error in grabbing single event: ${error.message}`);
-//     }
-// }
-
-// async function updateEvent(eventId, newEventInfo)
-// {
-//     try 
-//     {
-//         await Event.findOneAndUpdate({ "_id": eventId }, { "$set": newEventInfo});  
-//     }
-//     catch (error) {
-//         throw new Error(`Error in updating event: ${error.message}`);
-//     }
-// }
 
 module.exports = { getEvents, getEvent, createEvent, deleteEvent, updateEvent };

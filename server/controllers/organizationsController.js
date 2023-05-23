@@ -1,4 +1,4 @@
-const Organization = require('../models/organizations');
+const Organization = require('../models/organizationModel');
 const mongoose = require('mongoose');
 const path = require('path');
 

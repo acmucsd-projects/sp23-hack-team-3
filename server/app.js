@@ -15,8 +15,8 @@ const sessionHandler = require('./auth/session.js');
 const app = express();
 
 app.use(logger('dev'));
-//passport stuff
 
+//passport stuff
 app.use(
   session({
     secret: `${process.env.SESSION_SECRET}`,
@@ -28,18 +28,19 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
+//formatting?
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //IGNORE THESE TEST ROUTES 
 app.get('/', async (req, res) => {
-  res.status(200).json({message: "EMPTY ROUTE TEST"});
+  return res.status(200).json({message: "HELLO"});
 });
 app.get('/authtest', sessionHandler.ensureAuthenticated, async (req, res) => {
   res.status(200).json({message: "YOU ARE LOGGED IN!"});
 });
 
-//ACTUAL EVENT SITE ROUTES
+//ACTUAL WEBSITE ROUTES
 app.use('/users', usersRouter);
 app.use('/events', eventRouter);
 app.use('/organizations', organizationsRouter);

@@ -1,21 +1,21 @@
+console.log('Loading organizations schema...');
 const mongoose = require('mongoose');
 
-const OrganizationSchema = new mongoose.Schema(
-    {
-        owners: {
-            type: [UserSchema],
-            required: true,
-        },
-        name: {
-            type: String,
-            required: true,
-        },
-        socials: {
-            type: [String],
-            required: true,
-        },
-    }
-);
+const Schema = mongoose.Schema;
 
-const Organization = new mongoose.model('Organization', OrganizationSchema);
-module.exports = Organization;
+const OrgSchema = new Schema({
+    orgName: {
+        type: String,
+        required: true,
+    },
+    userID: {
+        type: [String],
+        required: true,
+    },
+    socials: {
+        type: [String],
+        required: false,
+    },
+})
+
+module.exports = mongoose.model('Organization', OrgSchema, "Organization");

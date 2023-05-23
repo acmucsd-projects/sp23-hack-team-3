@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const EventSchema = new mongoose.Schema (
     
     {
@@ -7,8 +6,8 @@ const EventSchema = new mongoose.Schema (
             type: String,
             required: true,
         },
-        orgs : {
-            type: [String],
+        orgID : {
+            type: String,
             required: true,
         },
         date: {
@@ -27,7 +26,7 @@ const EventSchema = new mongoose.Schema (
             type : [String],
             required: false,
         },
-        photo: {
+        flyer: {
             type : String,
             required: false,
         }
