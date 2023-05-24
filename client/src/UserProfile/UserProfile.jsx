@@ -54,7 +54,7 @@ function UserProfile() {
                 </div>
             </div>
             {/** Implementation of Events */}
-            <h1 style = {{marginLeft: 20, textAlign: 'center'}}>Your Events</h1>
+            <h1 style = {{textAlign: 'center'}}>Your Events</h1>
             <div className='row'>
                 <div className='LeftColumn'>
                     <div style={{ marginLeft: "4vw" }}>
