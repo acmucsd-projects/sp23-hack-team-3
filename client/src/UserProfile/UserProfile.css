@@ -1,0 +1,22 @@
+.UserProfile{
+    margin-right: 200px;
+    margin-left: 10px;
+    align-items: start;
+    display: flex;
+}
+.row{
+    content: "";
+    display: table;
+    clear: both;
+}
+.LeftColumn{
+    float: left;
+    width: 48%;
+}
+.RightColumn{
+    float: left;
+    width: 48%;
+}
+
+
+
