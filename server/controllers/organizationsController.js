@@ -12,10 +12,10 @@ const getOrganizations = async (req, res) => {
 //get a single org
 const getOrganization = async (req, res) => {
     const {id} = req.params;
-    const organization = await Organization.findById(id)
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({})
+        return res.status(404).json({error: 'Invalid ID'})
     }
+    const organization = await Organization.findById(id);
     if (!organization) {
         return res.status(404).json({
             error: 'No such organization'
@@ -33,22 +33,13 @@ const createOrganization = async (req, res) => {
         res.status(404).json({message: "Error creating organization"});
     }
     res.status(200).json({message: "Organization created"});
-    // const {organization} = req.body;
-    // const {admin, orgName, socials, events} = organization;
-    // if (!admin || !orgName || !socials || !events) {
-    //     res.status(400).json({error: 'Invalid Input!'});
-    // }
-    // else {
-    //     const newOrganization = await Organization.create(organization);
-    //     res.status(200).json({newOrganization});
-    // }
 }
 
 const deleteOrganizaiton = async (req, res) => {
     const {id} = req.params;
     try {
         await Organization.findByIdAndRemove(id)
-        res.status(200).json({message: `Deleted organization with id: ${eventId}`});
+        res.status(200).json({message: `Deleted organization with id: ${id}`});
     }
     catch(error)
     {
