@@ -4,7 +4,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 
-export default function EventCard({title, date, start, end, url, description}) {
+export default function EventCard({test}) {
   return (
     <Card sx={{ maxWidth: "45vw", marginTop: "3.5vh"}}>
       <CardActionArea>
@@ -12,18 +12,16 @@ export default function EventCard({title, date, start, end, url, description}) {
           <CardMedia
             component="img"
             sx={{ height: 150, padding: 2 }}
-            image={url}
+            image="logo512.png"
             alt=""
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {title}
-            </Typography>
-            <Typography>
-              {start}-{end} on {date}
+              {test}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {description}
+              Lizards are a widespread group of squamate reptiles, with over 6,000
+              species, ranging across all continents except Antarctica
             </Typography>
           </CardContent>
         </div>
