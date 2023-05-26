@@ -1,12 +1,19 @@
-import LogoBar from '../Component/LogoBar';
+import Navbar from '../Component/Navbar';
 import EventCard from "../Component/Card"
 import "./Home.css";
 import eventData from "../event-data.json";
+import { useState } from "react";
 
 export default function Home() {
+
+    const [loggedIn, isLoggedIn] = useState(true)
     return (
         <>
-            <LogoBar />
+        
+            <Navbar 
+                loggedIn = {loggedIn}
+            />
+
             <div className='EventList'>
                 <p>{eventData.length} events</p>
                 <h1>Upcoming Events</h1>
