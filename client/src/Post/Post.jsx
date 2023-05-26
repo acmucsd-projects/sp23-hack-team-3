@@ -77,13 +77,13 @@ function Post(){
                     <div style = {{ marginTop: 10 }}>These information will be the first impression for your potential event-goers, so be clear, descriptive, and unique!</div>
                 </div>
                 <div className="form-control" style = {{ marginTop: 30, textAlign: "center" }}>
-                    <input type="text" placeholder="Event Title" name="title" {...register("title")} onChange={e => setTitle(e.target.value)} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
+                    <input type="text" placeholder="Event Title" name="title" {...register("title", {required: true})} onChange={e => setTitle(e.target.value)} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>
                 <div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
-                    <input type="text" placeholder="Organizer" name="organizer" {...register("organizer")} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
+                    <input type="text" placeholder="Organizer" name="organizer" {...register("organizer", {required: true})} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>
                 <div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
-                    <input type="text" placeholder="Event Location" name="location" {...register("location")}  style = {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
+                    <input type="text" placeholder="Event Location" name="location" {...register("location", {required: true})}  style = {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>
 
                 <div class="flex-col" >
@@ -91,7 +91,7 @@ function Post(){
                         <input 
                             type="date" 
                             placeholder="Date" 
-                            name="date" {...register("date")}  
+                            name="date" {...register("date", {required: true})}  
                             style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5 }} 
                         />
                     </div>
@@ -99,7 +99,7 @@ function Post(){
                         <input 
                             type="time" 
                             placeholder="Start Time" 
-                            name="start_time" {...register("start_time")}  
+                            name="start_time" {...register("start_time", {required: true})}  
                             style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5}} 
                         />
                     </div>
@@ -107,7 +107,7 @@ function Post(){
                         <input 
                             type="time" 
                             placeholder="End Time" 
-                            name="end_time" {...register("end_time")}  
+                            name="end_time" {...register("end_time", {required: true})}  
                             style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5 }} 
                         />
                     </div>
@@ -116,7 +116,10 @@ function Post(){
                     <input 
                         type="text" 
                         placeholder="One sentence description of the event (max 150 characters)" 
-                        name="description" {...register("description")} 
+                        name="description" {...register("description", {
+                            maxLength: 150,
+                            required: true
+                        })} 
                         onChange = { e => setDescription(e.target.value) } 
                         style = {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 50, fontSize: '16px' }} 
                     />
@@ -151,7 +154,7 @@ function Post(){
                 <div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
                     <input 
                         type="file" 
-                        name="file" {...register("file")} 
+                        name="file" {...register("file", {required: true})} 
                         style = {{ width: '50%', height: '30px', borderRadius: 8, paddingLeft: 10, paddingTop: 5, fontSize: '16px' }} 
                     />
                 </div>
