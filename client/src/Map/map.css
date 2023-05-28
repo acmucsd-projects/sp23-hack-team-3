@@ -1,0 +1,16 @@
+.google-map {
+    width: 50vw;
+    height: calc(100vh - 90px);
+    position: sticky;
+    top: 90px;
+}
+
+.pin {
+    display: flex;
+    flex-direction: row;
+}
+
+.pin-text {
+    font-size: 1.3em;
+    white-space: nowrap;
+}
