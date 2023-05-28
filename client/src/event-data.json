@@ -4,6 +4,8 @@
         "date": "mm/dd/yyyy",
         "s_time": "xx:xx",
         "end_time": "xx:xx",
+        "lat": "32.8861",
+        "lng": "-117.2340",
         "url": "logo512.png",
         "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
     },
@@ -12,6 +14,8 @@
         "date": "mm/dd/yyyy",
         "s_time": "xx:xx",
         "end_time": "xx:xx",
+        "lat": "32.8801",
+        "lng": "-117.2380",
         "url": "logo512.png",
         "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " 
     },
@@ -20,6 +24,8 @@
         "date": "mm/dd/yyyy",
         "s_time": "xx:xx",
         "end_time": "xx:xx",
+        "lat": "32.8841",
+        "lng": "-117.2400",
         "url": "logo512.png",
         "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " 
     },
@@ -28,6 +34,8 @@
         "date": "mm/dd/yyyy",
         "s_time": "xx:xx",
         "end_time": "xx:xx",
+        "lat": "32.8821",
+        "lng": "-117.2330",
         "url": "logo512.png",
         "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " 
     }
