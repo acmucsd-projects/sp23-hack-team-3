@@ -2,8 +2,9 @@ import Navbar from '../Component/Navbar';
 import EventCard from "../Component/Card"
 import "./Home.css";
 import MapSection from '../Map/Map'
-import eventData from "../event-data.json";
-import { useState } from "react";
+// import eventData from "../event-data.json";
+import { useState, useEffect } from "react";
+import API from '../API.js';
 
 const center = {
     lat: 32.8801,
@@ -13,6 +14,17 @@ const center = {
 export default function Home() {
 
     const [loggedIn, isLoggedIn] = useState(true)
+    const [eventData, setEventData] = useState([])
+    
+    useEffect(() => {
+        API.getEvents().then((response) => {
+            //console.log(response.data.events);
+            setEventData(response.data.events);
+        });
+    }, []);
+    console.log(eventData)
+    
+    
     return (
         <>
 
