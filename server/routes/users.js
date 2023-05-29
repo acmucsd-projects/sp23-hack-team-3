@@ -11,8 +11,8 @@ require('../auth/local');
 
 router.post('/register', sessionHandler.alreadyAuthenticated, userController.registerUser);
 router.post('/login', sessionHandler.alreadyAuthenticated, passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/users/login',
+  successRedirect: 'http://localhost:3000/home',
+  failureRedirect: 'http://localhost:3000/login',
 }));
 
 module.exports = router;
