@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -25,6 +26,7 @@ app.use(
   })
 );
 app.use(cookieParser());
+app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
 

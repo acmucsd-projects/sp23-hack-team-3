@@ -1,10 +1,10 @@
 const User = require('../models/userModel.js');
+const Organization = require('../models/organizationModel.js');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const registerUser = async (req, res) => {
     const UserObject = req.body;
-    UserObject.orgs = [];
     //1. make sure email doesn't already exist
     //2. add user to collection!
     try 
@@ -15,11 +15,16 @@ const registerUser = async (req, res) => {
             console.log(found);
             return res.status(409).json({message: `Account already exists with email: ${UserObject.email}`});
         }
-        //add user to collection
-        //TODO ENCRYPT THE PASSWORD
+        
+        //add user and org to respective User and Organization collections
+        //ENCRYPT THE PASSWORD
         const hashedPassword = await bcrypt.hash(req.body.password, 13);
         UserObject.password = hashedPassword;
-        await User.create(UserObject);
+        const createdResult = await User.create(UserObject);
+        // console.log(createdResult);
+        const orgObject = {orgName: UserObject.organization, userID: [createdResult._id], socials: []};
+        // console.log(orgObject);
+        await Organization.create(orgObject);
     }
     catch (error) {
         return res.status(404).json({message: `Error in event creation: ${error.message}`});
@@ -27,8 +32,4 @@ const registerUser = async (req, res) => {
     return res.status(201).json({message: "Success. User registered"});
 }
 
-const loginUser = async (req, res) => {
-
-}
-
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser };

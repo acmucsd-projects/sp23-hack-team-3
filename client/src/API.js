@@ -3,8 +3,10 @@ import axios from 'axios';
 const serverURL = 'http://localhost:4000'
 
 const API = {
-    getPurchase: function() {
-        return axios.get(`${serverURL}/api/events`);
+    getEvents: function() {
+        const test = axios.get(`${serverURL}/events`);
+        // console.log(test);
+        return test;
     }
 }
 export default API;

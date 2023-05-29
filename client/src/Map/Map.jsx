@@ -12,16 +12,16 @@ const Marker = ({ text }) => (
     </div>
 )
 
-const Map = ({ center, zoomLevel }) => (
+const Map = ({ center, zoomLevel, latlngData}) => (
     <div className="map">
         <div className="google-map">
             <GoogleMapReact
-                bootstrapURLKeys={{ key: 'AIzaSyDdqM0RFwu2PwtFsHaiCosq-OewJ_TZRh8' }}
+                bootstrapURLKeys={{ key: 'AIzaSyADMskMzEIq3kf83pKEnGXCun4s36ugpJU' }}
                 defaultCenter={center}
                 defaultZoom={zoomLevel}
             >
                 {
-                    eventData.map(e =>
+                    latlngData.map(e =>
                         <Marker
                             lat={e.lat}
                             lng={e.lng}

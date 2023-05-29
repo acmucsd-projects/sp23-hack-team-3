@@ -18,12 +18,11 @@ export default function Home() {
     
     useEffect(() => {
         API.getEvents().then((response) => {
-            //console.log(response.data.events);
-            setEventData(response.data.events);
+            // console.log(response.data.events);
+            setEventData(response.data);
+            // console.log(response.data);
         });
     }, []);
-    console.log(eventData)
-    
     
     return (
         <>
@@ -31,7 +30,6 @@ export default function Home() {
             <Navbar
                 loggedIn={loggedIn}
             />
-
             <div className='home-page'>
                 <div className='EventList'>
                     <p>{eventData.length} events</p>
@@ -40,19 +38,18 @@ export default function Home() {
                         {
                             eventData.map(e =>
                                 <EventCard
-                                    title={e.title}
-                                    start={e.s_time}
-                                    end={e.end_time}
+                                    title={e.name}
                                     date={e.date}
-                                    url={e.url}
+                                    flyer={e.flyer}
                                     description={e.description}
                                 />)
                         }
                     </div>
                 </div>
-
-                <MapSection center={center} zoomLevel={15} />
+                
+                <MapSection center={center} zoomLevel={15} latlngData={eventData}/>
             </div>
+            
         </>
     )
 }
