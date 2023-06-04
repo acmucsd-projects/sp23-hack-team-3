@@ -9,12 +9,14 @@ export default function UserProfileCard({name, description, url}) {
     <Card sx={{ maxWidth: "45vw", marginTop: "3.5vh"}}>
       <CardActionArea>
         <div style={{ display: "flex", position: "relative", alignItems: "center" }}>
-          <CardMedia
-            component="img"
-            sx={{ height: 150, padding: 2 }}
-            image={url}
-            alt=""
-          />
+          <div style={{ height: "20vh", width: "13vw" }}>
+            <CardMedia
+              component="img"
+              sx={{ height: "18vh", width: "10vw", padding: "1vw"}}
+              image={url}
+              alt=""
+            />
+          </div>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {name}
