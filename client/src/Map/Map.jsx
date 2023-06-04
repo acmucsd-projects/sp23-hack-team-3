@@ -25,7 +25,7 @@ const Map = ({ center, zoomLevel, latlngData}) => (
                         <Marker
                             lat={e.lat}
                             lng={e.lng}
-                            text={e.title}
+                            text={e.name}
                         />)
                 }
             </GoogleMapReact>
