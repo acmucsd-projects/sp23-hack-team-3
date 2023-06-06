@@ -32,11 +32,11 @@ export default function EventCard({ title, date, flyer, description, tags }) {
                 {title}
               </Typography>
               <Typography>{date}</Typography>
-              <div style={{ marginTop: "1vh" }}>
+              <div >
                 {/* <p>Test Tag</p> */}
-                {
+                <div style={{ marginTop: "2vh", marginBottom: "2vh" }}>{
                   tags.map(tag => <Tag text={tag}/>)
-                }
+                }</div>
                 <Typography variant="body2" color="text.secondary">
                   {description}
                 </Typography>

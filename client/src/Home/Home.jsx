@@ -5,6 +5,7 @@ import MapSection from '../Map/Map'
 // import eventData from "../event-data.json";
 import { useState, useEffect } from "react";
 import API from '../API.js';
+import { useLocation } from 'react-router-dom';
 
 const center = {
     lat: 32.8801,
@@ -13,7 +14,14 @@ const center = {
 
 export default function Home() {
 
-    const [loggedIn, isLoggedIn] = useState(true)
+    const location = useLocation();
+    let loggedIn = false; 
+
+    if (location.state && location.state.loggedIn) {
+        loggedIn = location.state.loggedIn;
+    }
+
+    console.log("loggedIn: ", loggedIn); 
     const [eventData, setEventData] = useState([])
     
     function stringToDate(inputDate) {
@@ -41,16 +49,18 @@ export default function Home() {
                     <p>{eventData.length} events</p>
                     <h1>Upcoming Events</h1>
                     <div style={{ marginLeft: "4vw" }}>
-                        {
-                            eventData.map(e =>
-                                <EventCard
-                                    title={e.name}
-                                    date={stringToDate(e.date)}
-                                    flyer={e.flyer}
-                                    description={e.description}
-                                    tags={e.tags}
-                                />)
-                        }
+                    {
+                        eventData.map((e, index) => (
+                            <EventCard
+                            key={index}
+                            title={e.name}
+                            date={stringToDate(e.date)}
+                            flyer={e.flyer}
+                            description={e.description}
+                            tags={e.tags}
+                            />
+                        ))
+                    }
                     </div>
                 </div>
                 
