@@ -59,7 +59,7 @@ function Post(){
     const handleSetEndTime = (e) => {
         setEndTime('T' + e.target.value + ':00.000Z');        
     }
-
+    
     const dropDownValue = () => {
         const value = "Event Location"
         return value;
