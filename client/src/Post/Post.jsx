@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./Post.css";
 import LogoBar from '../Component/LogoBar';
-import API from '../API';
 import axios from 'axios';
 import location from '../locationTranslation.json'
 
 
 function Post(){
-    // // const user = localStorage.getItem('user');
+
     const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
@@ -30,6 +29,8 @@ function Post(){
     const [postTag, setPostTag] = useState([]);
     const [flyer, setFlyer] = useState("");
     const [value, setValue] = useState(dropDownValue)
+    const [failed, setFailed] = useState(false)
+
 
     const handleToggle = ({ target }) =>
     setTag(s => ({ ...s, [target.name]: !s[target.name] }));
@@ -74,10 +75,10 @@ function Post(){
     
     const handlePost = async () => {
 
-        handlePostTag();
+        handlePostTag(); //NOT WORKING YET
         console.log("postTag: ", postTag);
 
-
+        setFailed(false)
 
         const payload = {
           name: title,
@@ -99,24 +100,20 @@ function Post(){
                 .then(function (response){
                     console.log(response);
                     console.log(response.data);
+                    if( response.status === 201 ){
+                        navigate("/")
+                    }
                 })
                 .catch(error => {
                     console.log(error);
+                    if( error.reponse.status === 409 ){
+                        setFailed(true)
+                    }
+                    
             })
-
-        navigate("/")
+       
     };
 
-    // const {
-    //     register,
-    //     getValues,
-    //     handleSubmit,
-    //     formState: { errors }
-    //   } = useForm();
-    
-      const onSubmit = (data) => {
-        console.log(data);
-      };
 
 
     return (
@@ -229,6 +226,7 @@ function Post(){
                     />
                 </div>
 
+                { failed && <p style={{ color: 'red', textAlign: 'center' }}>Posting failed. Please try again.</p>}
 
                 <div className="form-control" style = {{ marginTop: 30, marginBottom: 50, width: '50%', marginLeft: 'auto', marginRight: 'auto' }}>
                     <button type="submit" class="button">Create Event</button>
