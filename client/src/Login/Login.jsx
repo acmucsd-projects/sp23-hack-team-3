@@ -26,17 +26,17 @@ export default function Login (){
             console.log(loginObject);
 
             //old
-            axios.post("http://localhost:4000/users/login", loginObject)
+            // axios.post("http://localhost:4000/users/login", loginObject)
 
-            // axios.post('http://localhost:4000/users/login', loginObject, {withCredentials: true});
-            //     .then(function (response){
-            //         console.log(response);
-            //         console.log(response.data);
-            //     })
-            //     .catch(error => {
-            //         console.log(error);
-            //     })
-            // console.log("HELLO2");
+            axios.post('http://localhost:4000/users/login', loginObject, {withCredentials: true})
+                .then(function (response){
+                    console.log(response);
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            console.log("HELLO2");
         }
         catch (err)
         {

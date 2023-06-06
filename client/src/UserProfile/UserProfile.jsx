@@ -1,44 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import "./UserProfile.css";
 import LogoBar from '../Component/LogoBar';
+import Navbar from '../Component/Navbar';
 import EventCard from "../Component/Card"
 import UserProfileCard from "../Component/UserProfileCard"
-import eventData from "../event-data.json";
+import API from '../API.js';
+//import eventData from "../event-data.json";
 import userData from "../user-profile-data.json"
 
-const eventCount = eventData.length;
-const elements = eventData.map( e => 
-    <EventCard 
-    title={e.title}
-    start={e.s_time}
-    end={e.end_time}
-    date={e.date}
-    url={e.url}
-    description={e.description}
-     /> )
 
-function ElementsLeft() {
+function ElementsLeft(eventData) {
     const leftElements = [];
-for (let i = 0; i < eventCount/2; i++) {
-    leftElements.push(elements[i]);
-}
-return leftElements;
+    for (let i = 0; i < eventData.length; i++) {
+        if(i % 2 === 0) {
+            leftElements.push(eventData[i]);
+        }
+    }
+    return leftElements;
 }
 
-function ElementsRight() {
+function ElementsRight(eventData) {
     const rightElements = [];
-    for (let i = eventCount/2; i < eventCount; i++) {
-        rightElements.push(elements[i]);
+    for (let i = 0; i < eventData.length; i++) {
+        if(i % 2 === 1) {
+            rightElements.push(eventData[i]);
+        }
     }
 return rightElements;
 }
 
 function UserProfile() {
+    const [eventData, setEventData] = useState([])
+    //const [userData, setUsername] = useState([])
+    //const eventCount = eventData.length;
+    const elements = eventData.map( e => 
+        <EventCard 
+        title={e.title}
+        start={e.s_time}
+        end={e.end_time}
+        date={e.date}
+        url={e.url}
+        description={e.description}
+     /> )
+
+    useEffect(() => {
+        API.getEvents().then((response) => {
+            setEventData(response.data);
+        });
+    }, []);
+    /*useEffect(() => {
+        API.getOrganization().then((response) => {
+            setUsername(response.data);
+        });
+    }, []);
+    */
+    
     return (
         <>
             {/**Logo Here */}
-            <LogoBar />
+            <Navbar />
             &emsp;
             <h1 style = {{marginLeft: 80}}>Your Profile</h1>
             <div className='UserProfile'>
@@ -58,12 +79,12 @@ function UserProfile() {
             <div className='row'>
                 <div className='LeftColumn'>
                     <div style={{ marginLeft: "4vw" }}>
-                        {ElementsLeft()}
+                        {ElementsLeft(elements)}
                     </div>
                 </div>
                 <div className='RightColumn'>
                     <div style={{ marginLeft: "4vw" }}>
-                        {ElementsRight()}
+                        {ElementsRight(elements)}
                     </div>
                 </div>
             </div>

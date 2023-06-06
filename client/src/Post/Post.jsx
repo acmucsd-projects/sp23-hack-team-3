@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import "./Post.css";
 import { useForm } from "react-hook-form";
 import LogoBar from '../Component/LogoBar';
+import API from '../API';
 
 
 function Post(){
@@ -41,20 +42,19 @@ function Post(){
     // };
 
     
-    // const handlePost = async () => {
-    //     const payload = {
-    //       username: user,
-    //       restaurant: restaurant,
-    //       image: "",
-    //       postTitle: title,
-    //       review: review,
-    //       stars: value
-    //     };
-    //     console.log(payload)
-    //     const new_post = await API.createPost(payload);
-    //     const file_upload = await API.uploadPostImage(image, new_post.data._id);
-    //     navigate("/home")
-    // };
+    const handlePost = async () => {
+        const payload = {
+          title: title,
+          description: description,
+          flyer: "",
+          
+        };
+        console.log(payload)
+        const new_post = await API.createPost(payload);
+        const file_upload = await API.uploadPostImage(image, new_post.data._id);
+        navigate("/")
+    };
+
     const {
         register,
         handleSubmit,
@@ -69,7 +69,7 @@ function Post(){
     return (
         <>
             <LogoBar />
-            <form>
+            <form onSubmit={handleSubmit(handlePost)}>
                 <h1 style = {{ marginTop: 30, textAlign: "center" }}>Create an Event</h1>
                 
                 <div className="form-info">
