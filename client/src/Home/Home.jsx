@@ -16,14 +16,20 @@ export default function Home() {
     const [loggedIn, isLoggedIn] = useState(true)
     const [eventData, setEventData] = useState([])
     
+    function stringToDate(inputDate) {
+        let date = new Date(inputDate);
+        let dateString = date.toLocaleString("en-US", {
+            timeZone: "America/Los_Angeles"
+        })
+        return dateString;
+    }
+
     useEffect(() => {
         API.getEvents().then((response) => {
-            // console.log(response.data.events);
             setEventData(response.data);
-            // console.log(response.data);
         });
     }, []);
-    
+
     return (
         <>
 
@@ -39,9 +45,10 @@ export default function Home() {
                             eventData.map(e =>
                                 <EventCard
                                     title={e.name}
-                                    date={e.date}
+                                    date={stringToDate(e.date)}
                                     flyer={e.flyer}
                                     description={e.description}
+                                    tags={e.tags}
                                 />)
                         }
                     </div>

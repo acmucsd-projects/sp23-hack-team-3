@@ -1,18 +1,27 @@
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import Tag from "./Tag";
+import { CardActionArea } from "@mui/material";
 
-export default function EventCard({ title, date, flyer, description }) {
+export default function EventCard({ title, date, flyer, description, tags }) {
+
   return (
     <Card sx={{ width: "45vw", height: "25vh", marginTop: "3.5vh" }}>
       <CardActionArea>
-        <div style={{ height: "25vh", width: "45vw", display: "flex", position: "relative" }}>
+        <div
+          style={{
+            height: "25vh",
+            width: "45vw",
+            display: "flex",
+            position: "relative",
+          }}
+        >
           <div style={{ height: "25vh", width: "15vw" }}>
             <CardMedia
               component="img"
-              sx={{ height: "23vh", width: "13vw", padding: "1vw"}}
+              sx={{ height: "23vh", width: "13vw", padding: "1vw" }}
               image={flyer}
               alt=""
             />
@@ -22,12 +31,16 @@ export default function EventCard({ title, date, flyer, description }) {
               <Typography gutterBottom variant="h5" component="div">
                 {title}
               </Typography>
-              <Typography>
-                {date}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {description}
-              </Typography>
+              <Typography>{date}</Typography>
+              <div style={{ marginTop: "1vh" }}>
+                {/* <p>Test Tag</p> */}
+                {
+                  tags.map(tag => <Tag text={tag}/>)
+                }
+                <Typography variant="body2" color="text.secondary">
+                  {description}
+                </Typography>
+              </div>
             </CardContent>
           </div>
         </div>

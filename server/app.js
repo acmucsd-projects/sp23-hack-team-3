@@ -29,18 +29,18 @@ app.use(
 );
 app.use(cookieParser());
 app.use(cors());
-const corsOptions = {
-  origin: true,
-  credentials: true
-}
-app.options('*', cors(corsOptions));
+// const corsOptions = {
+//   origin: true,
+//   credentials: false
+// }
+// app.options('*', cors(corsOptions));
 app.use(passport.initialize());
 app.use(passport.session());
 
 //formatting?
 // app.use(express.json());
 app.use(bodyParser.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true}));
 
 //IGNORE THESE TEST ROUTES 
 app.get('/', async (req, res) => {

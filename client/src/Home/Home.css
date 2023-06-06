@@ -5,8 +5,11 @@
 
 .EventList>p {
     margin-left: 4vw;
+    margin-top: 5vh;
+    margin-bottom: 1vh;
 }
 
 .EventList h1 {
     margin-left: 4vw;
+    margin-top: 1vh;
 }

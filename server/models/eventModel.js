@@ -6,16 +6,28 @@ const EventSchema = new mongoose.Schema (
             type: String,
             required: true,
         },
-        orgID : {
+        organization : {
+            type: String,
+            required: true,
+        },
+        orgID: {
             type: String,
             required: true,
         },
         date: {
-            type: Date,
+            type: String,
+            required: true,
+        },
+        date2: {
+            type: String,
             required: true,
         },
         description: {
             type : String,
+            required: true,
+        },
+        location: {
+            type: String,
             required: true,
         },
         lat: {

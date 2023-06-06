@@ -30,14 +30,19 @@ const getEvent = async (req, res) => {
 
 const createEvent = async (req, res) => {
     const EventObject = req.body;
+    // console.log("YOOOOOOO");
+    // console.log(req.body);
     try 
     {
         //we first grab orgID associated with req.user._id, then attach to eventobject
-        const org = await Organization.find({ "userID": req.user._id});
-        EventObject.orgID = org[0]._id;
+        //const org = await Organization.find({ "userID": req.user._id});
+
+        // EventObject.orgID = org[0]._id;
+        EventObject.orgID = "6466d538b8554d8cf0783e58";
         await Event.create(EventObject);
     }
     catch (error) {
+        //console.log(error.message);
         return res.status(404).json({message: `Error in event creation: ${error.message}`});
     }
     return res.status(201).json({message: "Successful event creation"});

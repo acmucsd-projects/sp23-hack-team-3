@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./Post.css";
-import { useForm } from "react-hook-form";
 import LogoBar from '../Component/LogoBar';
 import API from '../API';
+import axios from 'axios';
+import location from '../locationTranslation.json'
 
 
 function Post(){
     // // const user = localStorage.getItem('user');
-    // // const navigate = useNavigate();
-    // const [searchQuery, setSearchQuery] = useState("");
-    // const [name, setName] = useState("");
-    
-    // // const [location, setLocation] = useState([0, 0]);
-    // // const [value, setValue] = useState(0);
-    // const [image, setImage] = useState(null);
+    const navigate = useNavigate();
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [organizer, setOrganizer] = useState("");
+    const [date, setDate] = useState("");
+    const [s_time, setStartTime] = useState("");
+    const [e_time, setEndTime] = useState("");
+    const [location, setLocation] = useState("Price Center");
+    const [lng, setlng] = useState("32.8879708");
+    const [lat, setlat] = useState("-117.2447013");
     const [tag, setTag] = React.useState({
         Free_Food: false,
         Free_Boba: false,
@@ -24,42 +27,92 @@ function Post(){
         Raffle: false,
         Giveaways: false
       });
+    const [postTag, setPostTag] = useState([]);
+    const [flyer, setFlyer] = useState("");
+    const [value, setValue] = useState(dropDownValue)
 
     const handleToggle = ({ target }) =>
     setTag(s => ({ ...s, [target.name]: !s[target.name] }));
+
+    const handlePostTag = () => {
+        const selectedTags = Object.entries(tag)
+        .filter(([key, value]) => value)
+        .map(([key]) => key);
+
+        setPostTag(selectedTags);
+    }
 
     const parseTag = (key) => {
         return key.replace(/_/g, ' ');
     };
 
-    
-    
-    // const handleFileUpload = async (e) => {
-    //   const file = e.target.files[0];
-    //   const form = new FormData();
-    //   form.append('image', file)
-    //   setImage(form);
-    // };
+    const handleLocation = () => {
+        setLocation("Price Center");
+        setlng("32.8861");
+        setlat("-117.2340");
+    }
+
+    const handleSetStartTime = (e) => {
+        setStartTime('T' + e.target.value + ':00.000Z')
+    }
+
+    const handleSetEndTime = (e) => {
+        setEndTime('T' + e.target.value + ':00.000Z');        
+    }
+
+    const dropDownValue = () => {
+        const value = "Event Location"
+        return value;
+    } 
+
+    const dropDownChange = (e) => {
+        setValue(e.target.value)
+        handleLocation()
+    }
 
     
+    
     const handlePost = async () => {
+
+        handlePostTag();
+        console.log("postTag: ", postTag);
+
+
+
         const payload = {
-          title: title,
+          name: title,
+          organization: organizer,
+          orgID: "6466d538b8554d8cf0783e58",
+          date: new Date(date + s_time).toISOString(),
+          date2: new Date(date + e_time).toISOString(),
           description: description,
+          location: location,
+          tags: postTag,
           flyer: "",
-          
+          lng: lng,
+          lat: lat
         };
+        
         console.log(payload)
-        const new_post = await API.createPost(payload);
-        const file_upload = await API.uploadPostImage(image, new_post.data._id);
+
+        axios.post('http://localhost:4000/events', payload)
+                .then(function (response){
+                    console.log(response);
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+            })
+
         navigate("/")
     };
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors }
-      } = useForm();
+    // const {
+    //     register,
+    //     getValues,
+    //     handleSubmit,
+    //     formState: { errors }
+    //   } = useForm();
     
       const onSubmit = (data) => {
         console.log(data);
@@ -69,7 +122,7 @@ function Post(){
     return (
         <>
             <LogoBar />
-            <form onSubmit={handleSubmit(handlePost)}>
+            <form onSubmit={handlePost}>
                 <h1 style = {{ marginTop: 30, textAlign: "center" }}>Create an Event</h1>
                 
                 <div className="form-info">
@@ -77,38 +130,57 @@ function Post(){
                     <div style = {{ marginTop: 10 }}>These information will be the first impression for your potential event-goers, so be clear, descriptive, and unique!</div>
                 </div>
                 <div className="form-control" style = {{ marginTop: 30, textAlign: "center" }}>
-                    <input type="text" placeholder="Event Title" name="title" {...register("title", {required: true})} onChange={e => setTitle(e.target.value)} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
+                    <input type="text" placeholder="Event Title" onChange={e => setTitle(e.target.value)} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>
                 <div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
-                    <input type="text" placeholder="Organizer" name="organizer" {...register("organizer", {required: true})} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
+                    <input type="text" placeholder="Organizer" onChange={e => setOrganizer(e.target.value)} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>
-                <div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
-                    <input type="text" placeholder="Event Location" name="location" {...register("location", {required: true})}  style = {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
+                {/*<div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
+                    <input type="text" placeholder="Event Location" onChange={handleLocation}  style = {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
+                </div>
+                */}
+                <div className="locationDropDown">
+                    <select value = {value} onChange = {dropDownChange} style={{width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px'}} >
+                        
+                        <option value = "Price Center">Price Center</option>
+                        <option value = "Geisel Library">Geisel Library</option>
+                        <option value = "CSE Building">CSE Building</option>
+                        <option value = "Center Hall">Center Hall</option>
+                        <option value = "Warren College">Warren College</option>
+                        <option value = "Sixth College">Sixth College</option>
+                        <option value = "Revelle College">Revelle College</option>
+                        <option value = "Muir College">Muir College</option>
+                        <option value = "Eleanor Roosevelt College">Eleanor Roosevelt College</option>
+                        <option value = "Marshall College">Marshall College</option>
+                        <option value = "Seventh College">Seventh College</option>
+                    </select>                   
                 </div>
 
                 <div class="flex-col" >
                     <div className="form-control">
                         <input 
                             type="date" 
-                            placeholder="Date" 
-                            name="date" {...register("date", {required: true})}  
+                            name="date"
+                            onChange={e => setDate(e.target.value)}
                             style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5 }} 
                         />
                     </div>
                     <div className="form-control">
                         <input 
-                            type="time" 
-                            placeholder="Start Time" 
-                            name="start_time" {...register("start_time", {required: true})}  
-                            style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5}} 
+                        type="time" 
+                        name="start_time"
+                        onChange={handleSetStartTime}
+                        style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5}} 
+                        required
                         />
                     </div>
                     <div className="form-control">
                         <input 
-                            type="time" 
-                            placeholder="End Time" 
-                            name="end_time" {...register("end_time", {required: true})}  
-                            style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5 }} 
+                        type="time" 
+                        name="end_time"
+                        onChange={handleSetEndTime}
+                        style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5}} 
+                        required
                         />
                     </div>
                 </div>
@@ -116,10 +188,7 @@ function Post(){
                     <input 
                         type="text" 
                         placeholder="One sentence description of the event (max 150 characters)" 
-                        name="description" {...register("description", {
-                            maxLength: 150,
-                            required: true
-                        })} 
+                        name="description" 
                         onChange = { e => setDescription(e.target.value) } 
                         style = {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 50, fontSize: '16px' }} 
                     />
@@ -154,7 +223,8 @@ function Post(){
                 <div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
                     <input 
                         type="file" 
-                        name="file" {...register("file", {required: true})} 
+                        name="file" 
+                        onChange={e => setFlyer(e.target.value)}
                         style = {{ width: '50%', height: '30px', borderRadius: 8, paddingLeft: 10, paddingTop: 5, fontSize: '16px' }} 
                     />
                 </div>

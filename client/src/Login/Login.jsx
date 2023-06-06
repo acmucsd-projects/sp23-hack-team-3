@@ -28,7 +28,7 @@ export default function Login (){
             //old
             // axios.post("http://localhost:4000/users/login", loginObject)
 
-            axios.post('http://localhost:4000/users/login', loginObject, {withCredentials: true})
+            axios.post('http://localhost:4000/users/login', loginObject)
                 .then(function (response){
                     console.log(response);
                     console.log(response.data);
