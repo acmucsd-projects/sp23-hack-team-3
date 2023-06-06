@@ -11,7 +11,7 @@ export default function EventCard({title, date, flyer, description}) {
         <div style={{ display: "flex", position: "relative", alignItems: "center" }}>
           <CardMedia
             component="img"
-            sx={{ height: 150, padding: 2 }}
+            sx={{ width: 150, padding: 2 }}
             image={flyer}
             alt=""
           />

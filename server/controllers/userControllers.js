@@ -3,6 +3,10 @@ const Organization = require('../models/organizationModel.js');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+
+// const getUserInfo = async (req, res) => {
+
+// }
 const registerUser = async (req, res) => {
     const UserObject = req.body;
     //1. make sure email doesn't already exist

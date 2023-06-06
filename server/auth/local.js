@@ -36,17 +36,20 @@ passport.use(new localStrategy({
         const user = await User.findOne({ email: email});
         if (!user)
         {
+            console.log("X")
             return done(null, false, { message: `Email or password wrong. Please try again.`});
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch)
         {
+            console.log("Y")
             return done(null, false, { message: `Email or password wrong. Please try again.`});
         }
         return done(null, user._id);
     }
     catch (err)
     {
+        console.log("Z")
         return done(null, false, { message: 'Failed to login. Please try again.' });
     }
   }

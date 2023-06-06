@@ -7,6 +7,7 @@ const sessionHandler = require('../auth/session.js');
 router.get('/', eventController.getEvents);
 router.get('/:id', eventController.getEvent);
 router.post('/', sessionHandler.ensureAuthenticated, eventController.createEvent);
+//router.post('/', eventController.createEvent);
 router.delete('/:id', eventController.deleteEvent);
 router.patch('/:id', eventController.updateEvent);
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('morgan');
 const mongoose = require('mongoose');
@@ -12,12 +13,13 @@ const organizationsRouter = require('./routes/organizations');
 const eventRouter = require('./routes/events');
 
 const sessionHandler = require('./auth/session.js');
-
+// const cors_proxy = require('cors-anywhere');
 const app = express();
 
 app.use(logger('dev'));
 
-//passport stuff
+
+
 app.use(
   session({
     secret: `${process.env.SESSION_SECRET}`,
@@ -27,17 +29,24 @@ app.use(
 );
 app.use(cookieParser());
 app.use(cors());
+const corsOptions = {
+  origin: true,
+  credentials: true
+}
+app.options('*', cors(corsOptions));
 app.use(passport.initialize());
 app.use(passport.session());
 
 //formatting?
-app.use(express.json());
+// app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
 //IGNORE THESE TEST ROUTES 
 app.get('/', async (req, res) => {
   return res.status(200).json({message: "HELLO"});
 });
+
 app.get('/authtest', sessionHandler.ensureAuthenticated, async (req, res) => {
   res.status(200).json({message: "YOU ARE LOGGED IN!"});
 });
