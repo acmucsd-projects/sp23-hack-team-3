@@ -37,27 +37,6 @@ axios.defaults.withCredentials = true;
         {
             console.log(err);
         }
-
-        
-
-        // const users = await API.getUsers();
-        // let userFound = false;
-        // for (let user of users.data){
-        //     if (user.email === email){
-        //     userFound = true;
-        //     if (bcrypt.compare(password, user.password)){
-        //         localStorage.setItem('user', user._id)
-        //         navigate("/home");
-        //     }
-        //     else{
-        //         alert("Wrong Password Entered");
-        //     }
-        //     }
-        // }
-        // if (!userFound) {
-        //     alert("User with email " + email + " not found.");
-        // }
-        //const result = await axios.post('https://testapi.org/post', { name: 'John Doe' });
       }
 
     return(

@@ -10,6 +10,31 @@ const getEvents = async (req, res) => {
     res.status(200).json(events);
 }
 
+const getProfileEvents = async (req, res) => {
+    res.status(200).json({msg: "YOO"});
+}
+
+// const getProfileEvents = async (req, res) => {
+//     const userID = req.user;
+//     // console.log(typeof(userID));
+//     // console.log(userID);
+//     try 
+//     {
+//         console.log("BRUH1")
+//         //const org = await Organization.find({ "userID": req.user});
+
+//         //const orgID = org[0]._id;
+//         //now use this orgID to get events!
+//         console.log("BRUH2")
+//         // const events = await Event.find({"orgID": orgID});
+//         res.status(200).json(1);
+
+//     }
+//     catch (error) {
+//         return res.status(400).json({message: `Error in grabbing user's events: ${error.message}`});
+//     }
+// }
+
 const getEvent = async (req, res) => {
     const {
         id
@@ -43,7 +68,7 @@ const createEvent = async (req, res) => {
     }
     catch (error) {
         //console.log(error.message);
-        return res.status(404).json({message: `Error in event creation: ${error.message}`});
+        return res.status(409).json({message: `Error in event creation: ${error.message}`});
     }
     return res.status(201).json({message: "Successful event creation"});
 }
@@ -106,4 +131,4 @@ const updateEvent = async (req, res) => {
     return res.status(200).json({message: "Successful event update"});
 }
 
-module.exports = { getEvents, getEvent, createEvent, deleteEvent, updateEvent };
+module.exports = { getEvents, getEvent, createEvent, deleteEvent, updateEvent, getProfileEvents};

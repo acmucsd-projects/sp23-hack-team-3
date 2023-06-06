@@ -28,7 +28,6 @@ app.use(
   })
 );
 app.use(cookieParser());
-//app.use(cors());
 app.use(cors({
   credentials: true,
   origin: "http://localhost:3000"
@@ -37,7 +36,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //formatting?
-// app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true}));
 
@@ -47,6 +45,8 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/authtest', sessionHandler.ensureAuthenticated, async (req, res) => {
+  console.log(req.user);
+  console.log(req.user._id);
   res.status(200).json({message: "YOU ARE LOGGED IN!"});
 });
 

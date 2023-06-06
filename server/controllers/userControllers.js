@@ -3,10 +3,6 @@ const Organization = require('../models/organizationModel.js');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-
-// const getUserInfo = async (req, res) => {
-
-// }
 const registerUser = async (req, res) => {
     const UserObject = req.body;
     //1. make sure email doesn't already exist
@@ -26,6 +22,7 @@ const registerUser = async (req, res) => {
         UserObject.password = hashedPassword;
         const createdResult = await User.create(UserObject);
         // console.log(createdResult);
+        
         const orgObject = {orgName: UserObject.organization, userID: [createdResult._id], socials: []};
         // console.log(orgObject);
         await Organization.create(orgObject);
