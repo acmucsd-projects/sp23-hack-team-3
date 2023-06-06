@@ -1,6 +1,17 @@
 const Event = require('../models/eventModel.js');
 const Organization = require('../models/organizationModel');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config();
+
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const s3 = new S3Client({
+    credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
+    },
+    region: process.env.BUCKET_REGION
+});
 
 const getEvents = async (req, res) => {
     const events = await Event.find({}).sort({
@@ -27,28 +38,10 @@ const getProfileEvents = async (req, res) => {
     }
 }
 
-// const getEvent = async (req, res) => {
-//     const {
-//         id
-//     } = req.params
-//     if (!mongoose.Types.ObjectId.isValid(id)) {
-//         return res.status(404).json({
-//         })
-//     }
-//     const event = await Event.findById(id)
-
-//     if (!event) {
-//         return res.status(404).json({
-//             error: 'No such user'
-//         })
-//     }
-//     res.status(200).json(event)
-// }
-
 const createEvent = async (req, res) => {
     const EventObject = req.body;
-    // console.log("YOOOOOOO");
-    // console.log(req.body);
+    console.log("req.body", EventObject)
+    console.log("req.file", req.file);
     try 
     {
         //we first grab orgID associated with req.user._id, then attach to eventobject
@@ -120,6 +113,25 @@ const createEvent = async (req, res) => {
 //         return res.status(404).json({message: `Error in event update: ${error.message}`});
 //     }
 //     return res.status(200).json({message: "Successful event update"});
+// }
+
+
+// const getEvent = async (req, res) => {
+//     const {
+//         id
+//     } = req.params
+//     if (!mongoose.Types.ObjectId.isValid(id)) {
+//         return res.status(404).json({
+//         })
+//     }
+//     const event = await Event.findById(id)
+
+//     if (!event) {
+//         return res.status(404).json({
+//             error: 'No such user'
+//         })
+//     }
+//     res.status(200).json(event)
 // }
 
 module.exports = { getEvents, createEvent, getProfileEvents};

@@ -7,13 +7,13 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const passport = require('passport');
+//image stuff with s3
 
 const usersRouter = require('./routes/users');
 const organizationsRouter = require('./routes/organizations');
 const eventRouter = require('./routes/events');
 
 const sessionHandler = require('./auth/session.js');
-// const cors_proxy = require('cors-anywhere');
 const app = express();
 
 app.use(logger('dev'));
@@ -48,13 +48,14 @@ app.get('/authtest', sessionHandler.ensureAuthenticated, async (req, res) => {
   res.status(200).json({message: "YOU ARE LOGGED IN!"});
 });
 
+
+
 //ACTUAL WEBSITE ROUTES
-app.get('/aaa', async (req, res) => {
-  return res.status(200).json({message: "HELLO"});
-});
 app.use('/users', usersRouter);
 app.use('/events', eventRouter);
 app.use('/organizations', organizationsRouter);
+
+
 dotenv.config();
 
 mongoose.connect(process.env.DB_URL, {
