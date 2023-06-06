@@ -45,12 +45,13 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/authtest', sessionHandler.ensureAuthenticated, async (req, res) => {
-  console.log(req.user);
-  console.log(req.user._id);
   res.status(200).json({message: "YOU ARE LOGGED IN!"});
 });
 
 //ACTUAL WEBSITE ROUTES
+app.get('/aaa', async (req, res) => {
+  return res.status(200).json({message: "HELLO"});
+});
 app.use('/users', usersRouter);
 app.use('/events', eventRouter);
 app.use('/organizations', organizationsRouter);

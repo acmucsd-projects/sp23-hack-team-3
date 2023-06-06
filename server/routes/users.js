@@ -6,7 +6,6 @@ const sessionHandler = require('../auth/session.js');
 require('../auth/local');
 
 
-
 router.post('/register', sessionHandler.alreadyAuthenticated, userController.registerUser);
 
 router.post('/login', sessionHandler.alreadyAuthenticated, function (req, res, next) {
