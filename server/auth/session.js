@@ -1,11 +1,10 @@
 function ensureAuthenticated(req, res, next) 
 {
+    //console.log(req.user);
     if (req.isAuthenticated()) {
-      console.log("BRUH");
       next();
     }
     else {
-      console.log("DUDE");
       return res.redirect('http://localhost:3000');
     }
 }

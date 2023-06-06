@@ -4,7 +4,7 @@ import LogoBar from '../Component/LogoBar';
 import API from '../API.js';
 import axios from 'axios';
 export default function Login (){
-
+axios.defaults.withCredentials = true;
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
 
@@ -23,24 +23,18 @@ export default function Login (){
 
         try {
             console.log("HELLO");
-            console.log(loginObject);
 
-            //old
-            // axios.post("http://localhost:4000/users/login", loginObject)
-
-            axios.post('http://localhost:4000/users/login', loginObject)
+            axios.post('http://localhost:4000/users/login', loginObject, {withCredentials: true})
                 .then(function (response){
-                    console.log(response);
-                    console.log(response.data);
+                    // console.log(response);
+                    // console.log(response.data);
                 })
                 .catch(error => {
-                    console.log(error);
+                    // console.log(error);
                 })
-            console.log("HELLO2");
         }
         catch (err)
         {
-            console.log("FAILED");
             console.log(err);
         }
 

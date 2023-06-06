@@ -28,12 +28,11 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(cors());
-// const corsOptions = {
-//   origin: true,
-//   credentials: false
-// }
-// app.options('*', cors(corsOptions));
+//app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: "http://localhost:3000"
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
