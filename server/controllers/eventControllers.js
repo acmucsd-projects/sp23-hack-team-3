@@ -40,8 +40,6 @@ const getProfileEvents = async (req, res) => {
 
 const createEvent = async (req, res) => {
     const EventObject = req.body;
-    console.log("req.body", EventObject)
-    console.log("req.file", req.file);
     try 
     {
         //we first grab orgID associated with req.user._id, then attach to eventobject
