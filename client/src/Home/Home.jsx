@@ -5,6 +5,7 @@ import MapSection from '../Map/Map'
 import { useState, useEffect } from "react";
 import API from '../API.js';
 import Cookies from 'js-cookie'
+import axios from 'axios'
 // import { useLocation } from 'react-router-dom';
 
 const center = {
@@ -42,29 +43,38 @@ export default function Home() {
     useEffect(() => {
         
 
-        const handleCookieLogic = () => {
-            console.log("cookie in Post: ", Cookies.get('connet.sid'))
-            console.log("not cookie: ", !Cookies.get('connet.sid'))
-            if( Cookies.get('connect.sid') != undefined ){
+        // const handleCookieLogic = () => {
+        //     console.log("cookie in Post: ", Cookies.get('connet.sid'))
+        //     console.log("not cookie: ", !Cookies.get('connet.sid'))
+        //     if( Cookies.get('connect.sid') != undefined ){
+        //         setLoggedIn(true)
+        //     }
+        //   };
+      
+        // // Wait for the DOM content to load
+        // document.addEventListener('DOMContentLoaded', handleCookieLogic);
+        axios.get('http://localhost:4000/logged', {withCredentials: true})
+        .then( response => {
+            console.log(response.data.logged)
+            if( response.data.logged === true ){
                 setLoggedIn(true)
             }
-          };
-      
-        // Wait for the DOM content to load
-        document.addEventListener('DOMContentLoaded', handleCookieLogic);
+        })
+        .catch( err => {
+            console.log("logged: ", err)
+        })
       
         API.getEvents().then((response) => {
         setEventData(response.data);
         });
         
         // Clean up the event listener when the component unmounts
-        return () => {
-            document.removeEventListener('DOMContentLoaded', handleCookieLogic);
-        };
+        // return () => {
+        //     document.removeEventListener('DOMContentLoaded', handleCookieLogic);
+        // };
     }, []);
 
-    console.log("loggedIn: ", loggedIn);
-    console.log(Cookies.get('connect.sid') != undefined) 
+    
 
     return (
         <>

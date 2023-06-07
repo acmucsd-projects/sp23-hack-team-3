@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import axios from 'axios';
 import LogoBar from '../Component/LogoBar';
 import { useNavigate } from "react-router-dom";
@@ -42,6 +42,19 @@ export default function Signup (){
 
             })
     };
+
+    useEffect( () => {
+        axios.get('http://localhost:4000/logged', {withCredentials: true})
+        .then( response => {
+            console.log(response.data.logged)
+            if( response.data.logged === true ){
+                navigate('/')
+            }
+        })
+        .catch( err => {
+            console.log("logged: ", err)
+        })
+    }, [])
     
 
     return(

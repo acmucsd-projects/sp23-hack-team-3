@@ -31,9 +31,12 @@ export default function EventCard({ title, date, date2, flyer, description, tags
                 {title}
               </Typography>
               <div style={{ display: "flex", position: "relative", justifyContent: "space-between", alignItems: "center"}}>
-              <Typography>{date} - {date2}</Typography>
               <Typography variant="body2" color="text.secondary">Organization: {organization}</Typography>
               </div>
+              <div style={{ display: "flex", position: "relative", justifyContent: "space-between", alignItems: "center"}}>
+              <Typography>{date} - {date2}</Typography>
+              </div>
+              
               <div >
                 {/* <p>Test Tag</p> */}
                 <div style={{ marginTop: "2vh", marginBottom: "2vh" }}>{

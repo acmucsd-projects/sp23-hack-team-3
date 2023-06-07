@@ -54,11 +54,18 @@ function UserProfile() {
     };
 
     useEffect(() => {
-        // if( Cookies.get('connect.sid' === undefined)){
-        //     console.log("hello131")
-        // } else {
-        //     setLoggedIn(true)
-        // }
+        
+        axios.get('http://localhost:4000/logged', {withCredentials: true})
+        .then( response => {
+            console.log(response.data.logged)
+            if( response.data.logged !== true ){
+                navigate('/')
+            }
+        })
+        .catch( err => {
+            console.log("logged: ", err)
+        })
+
         getUserEvents();
     }, []);
     

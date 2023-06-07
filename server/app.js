@@ -49,6 +49,13 @@ app.get('/authtest', sessionHandler.ensureAuthenticated, async (req, res) => {
   res.status(200).json({ logged: "true"});
 });
 
+app.get('/logged', async (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.status(200).json({ logged: true});
+  }
+  return res.status(200).json({logged: false});
+});
+
 
 //ACTUAL WEBSITE ROUTES
 app.use('/users', usersRouter);

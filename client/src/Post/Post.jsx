@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import "./Post.css";
 import LogoBar from '../Component/LogoBar';
 import axios from 'axios';
-import location from '../locationTranslation.json'
 import Cookies from 'js-cookie'
+import lt from '../locationTranslation.json'
 
 
 
@@ -18,7 +18,7 @@ function Post(){
     const [date, setDate] = useState("");
     const [s_time, setStartTime] = useState("");
     const [e_time, setEndTime] = useState("");
-    const [location, setLocation] = useState("Price Center");
+    const [location, setLocation] = useState("PC");
     const [lng, setlng] = useState("32.8879708");
     const [lat, setlat] = useState("-117.2447013");
     const [tag, setTag] = React.useState({
@@ -34,9 +34,19 @@ function Post(){
     const [failed, setFailed] = useState(false);
 
     useEffect( () => {
-        if( Cookies.get('connect.sid') === undefined ){
-            navigate('/login')
-        }
+        // if( Cookies.get('connect.sid') === undefined ){
+        //     navigate('/login')
+        // }
+        axios.get('http://localhost:4000/logged', {withCredentials: true})
+        .then( response => {
+            console.log("post: ", response.data.logged)
+            if( response.data.logged !== true ){
+                navigate('/')
+            }
+        })
+        .catch( err => {
+            console.log("logged: ", err)
+        })
     }, [])
 
     const handleToggle = ({ target }) =>
@@ -58,9 +68,9 @@ function Post(){
 
     const handleLocation = () => {
 
-        setLocation("Price Center");
-        setlng("32.8861");
-        setlat("-117.2340");
+        setLocation(value);
+        setlng("32.8879708");
+        setlat("-117.2447013");
     }
 
     const handleSetStartTime = (e) => {
@@ -124,7 +134,7 @@ function Post(){
             console.log(key[0] + ", " + key[1]);
         }
 
-        axios.post('http://localhost:4000/events/', formData, config, {withCredential: true})
+        axios.post('http://localhost:4000/events/', formData, {withCredentials: true}, config)
                 .then(function (response){
                     console.log(response);
                     console.log(response.data);
@@ -178,25 +188,13 @@ function Post(){
                 <div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
                     <input type="text" placeholder="Organizer" onChange={e => setOrganizer(e.target.value)} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>
-                {/*<div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
-                    <input type="text" placeholder="Event Location" onChange={handleLocation}  style = {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
-                </div>
-                */}
+                
                 <div className="locationDropDown" style = {{ marginTop: 20, textAlign: "center" }}>
                     <select value = {value} onChange = {dropDownChange} style={{ height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px'}} >
-                        {/* {location.map( lo => 
-                            <option value = {lo}>{lo}</option>)} */}
-                        <option value = "Price Center">Price Center</option>
-                        <option value = "Geisel Library">Geisel Library</option>
-                        <option value = "CSE Building">CSE Building</option>
-                        <option value = "Center Hall">Center Hall</option>
-                        <option value = "Warren College">Warren College</option>
-                        <option value = "Sixth College">Sixth College</option>
-                        <option value = "Revelle College">Revelle College</option>
-                        <option value = "Muir College">Muir College</option>
-                        <option value = "Eleanor Roosevelt College">Eleanor Roosevelt College</option>
-                        <option value = "Marshall College">Marshall College</option>
-                        <option value = "Seventh College">Seventh College</option>
+                        
+                        {Object.keys(lt).map((lo, inx) => (
+                        <option value={inx}>{lo}</option>))}
+                        
                     </select>                   
                 </div>
 

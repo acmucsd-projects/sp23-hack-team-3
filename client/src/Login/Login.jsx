@@ -25,9 +25,19 @@ export default function Login (){
     // }
 
     useEffect( () => {
-        if( Cookies.get('connect.sid') != undefined ){
-            navigate('/')
-        }
+        // if( Cookies.get('connect.sid') != undefined ){
+        //     navigate('/')
+        // }
+        axios.get('http://localhost:4000/logged')
+        .then( response => {
+            console.log(response.data.logged)
+            if( response.data.logged === true ){
+                navigate('/')
+            }
+        })
+        .catch( err => {
+            console.log("logged: ", err)
+        })
     }, [])
     
 
