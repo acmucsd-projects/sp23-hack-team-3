@@ -27,12 +27,16 @@ export default function Home() {
     
     function stringToDate(inputDate) {
         let date = new Date(inputDate);
-        let dateString = date.toLocaleString("en-US", {
-            timeZone: "America/Los_Angeles"
-        })
+        // remove the seconds
+        const dateString =`${date.toLocaleDateString()}, ${date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
         return dateString;
     }
 
+    function handleEndTime(date2) {
+        const date = new Date(date2);
+        // console.log(date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }))
+        return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+    }
     
 
     useEffect(() => {
@@ -79,6 +83,7 @@ export default function Home() {
                             key={index}
                             title={e.name}
                             date={stringToDate(e.date)}
+                            date2={handleEndTime(e.date2)}
                             flyer={e.flyer}
                             description={e.description}
                             tags={e.tags}
