@@ -87,6 +87,7 @@ export default function Home() {
                             flyer={e.flyer}
                             description={e.description}
                             tags={e.tags}
+                            organization={e.organization}
                             />
                         ))
                     }
