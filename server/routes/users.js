@@ -27,4 +27,12 @@ router.post('/login', sessionHandler.alreadyAuthenticated, function (req, res, n
   })(req, res, next);
 });
 
+router.post('/logout', function (req, res) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
+  res.status(200).json({ message: "Successful Logout", logged: false });
+});
+
 module.exports = router;
