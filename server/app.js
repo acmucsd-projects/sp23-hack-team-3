@@ -54,7 +54,7 @@ app.get('/logged', async (req, res) => {
     return res.status(200).json({ logged: true});
   }
   return res.status(200).json({logged: false});
-})
+});
 
 
 //ACTUAL WEBSITE ROUTES
