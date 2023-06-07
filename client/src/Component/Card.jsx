@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Tag from "./Tag";
 import { CardActionArea } from "@mui/material";
 
-export default function EventCard({ title, date, flyer, description, tags }) {
+export default function EventCard({ title, date, date2, flyer, description, tags }) {
 
   return (
     <Card sx={{ width: "45vw", height: "25vh", marginTop: "3.5vh" }}>
@@ -31,7 +31,7 @@ export default function EventCard({ title, date, flyer, description, tags }) {
               <Typography gutterBottom variant="h5" component="div">
                 {title}
               </Typography>
-              <Typography>{date}</Typography>
+              <Typography>{date} - {date2}</Typography>
               <div >
                 {/* <p>Test Tag</p> */}
                 <div style={{ marginTop: "2vh", marginBottom: "2vh" }}>{
