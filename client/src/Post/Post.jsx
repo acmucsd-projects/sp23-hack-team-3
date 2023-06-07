@@ -116,7 +116,7 @@ function Post(){
         formData.append("lng", lng);
         formData.append("lat", lat);
 
-        const config = {     
+        const config = {    
             headers: { 'content-type': 'multipart/form-data' }
         }
 
@@ -124,7 +124,7 @@ function Post(){
             console.log(key[0] + ", " + key[1]);
         }
 
-        axios.post('http://localhost:4000/events/', formData, config, {withCredential: true})
+        axios.post('http://localhost:4000/events/', formData, {withCredentials: true}, config)
                 .then(function (response){
                     console.log(response);
                     console.log(response.data);
