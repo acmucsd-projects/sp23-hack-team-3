@@ -4,6 +4,8 @@ import "./Post.css";
 import LogoBar from '../Component/LogoBar';
 import axios from 'axios';
 import location from '../locationTranslation.json'
+import Cookies from 'js-cookie'
+
 
 
 function Post(){
@@ -26,21 +28,28 @@ function Post(){
         Raffle: false,
         Giveaways: false
       });
-    const [postTag, setPostTag] = useState([]);
-    const [flyer, setFlyer] = useState("");
-    const [value, setValue] = useState(dropDownValue)
-    const [failed, setFailed] = useState(false)
+    const [postTag, setPostTag] = useState('["a", "b", "c"]');
+    const [flyer, setFlyer] = useState([]);
+    const [value, setValue] = useState("");
+    const [failed, setFailed] = useState(false);
 
+    useEffect( () => {
+        if( Cookies.get('connect.sid') === undefined ){
+            navigate('/login')
+        }
+    }, [])
 
     const handleToggle = ({ target }) =>
     setTag(s => ({ ...s, [target.name]: !s[target.name] }));
 
     const handlePostTag = () => {
-        const selectedTags = Object.entries(tag)
-        .filter(([key, value]) => value)
-        .map(([key]) => key);
+        // const selectedTags = Object.entries(tag)
+        // .filter(([key, value]) => value)
+        // .map(([key]) => key);
 
-        setPostTag(selectedTags);
+        // setPostTag(selectedTags);
+        setPostTag('["a", "b", "c"]')
+        console.log("postTag in handlePost: ", postTag);
     }
 
     const parseTag = (key) => {
@@ -48,6 +57,7 @@ function Post(){
     };
 
     const handleLocation = () => {
+
         setLocation("Price Center");
         setlng("32.8861");
         setlat("-117.2340");
@@ -71,32 +81,50 @@ function Post(){
         handleLocation()
     }
 
+    const handleFlyerUpload = async (event) => {
+        const file = event.target.files?.[0];
+        if (file && file.type.startsWith('image/')) {
+            setFlyer(file)
+        } else {
+            console.log("Please select an image file")
+        }
+
+    }
+
+   
     
     
-    const handlePost = async () => {
+    const handlePost = async (event) => {
+
+        event.preventDefault();
 
         handlePostTag(); //NOT WORKING YET
         console.log("postTag: ", postTag);
 
         setFailed(false)
 
-        const payload = {
-          name: title,
-          organization: organizer,
-          orgID: "6466d538b8554d8cf0783e58",
-          date: new Date(date + s_time).toISOString(),
-          date2: new Date(date + e_time).toISOString(),
-          description: description,
-          location: location,
-          tags: postTag,
-          flyer: "",
-          lng: lng,
-          lat: lat
-        };
-        
-        console.log(payload)
+        let formData = new FormData();
+        formData.append("name", title);
+        formData.append("organization", organizer);
+        // formData.append("orgID", "6466d538b8554d8cf0783e58");
+        formData.append("date", new Date(date + s_time).toISOString());
+        formData.append("date2", new Date(date + e_time).toISOString());
+        formData.append("description", description);
+        formData.append("location", location);
+        formData.append("tags", postTag);
+        formData.append("flyer", flyer);
+        formData.append("lng", lng);
+        formData.append("lat", lat);
 
-        axios.post('http://localhost:4000/events', payload)
+        const config = {     
+            headers: { 'content-type': 'multipart/form-data' }
+        }
+
+        for (var key of formData.entries()) {
+            console.log(key[0] + ", " + key[1]);
+        }
+
+        axios.post('http://localhost:4000/events/', formData, config, {withCredential: true})
                 .then(function (response){
                     console.log(response);
                     console.log(response.data);
@@ -111,6 +139,24 @@ function Post(){
                     }
                     
             })
+
+        // const payload = {
+        //   name: title,
+        //   organization: organizer,
+        //   orgID: "6466d538b8554d8cf0783e58",
+        //   date: new Date(date + s_time).toISOString(),
+        //   date2: new Date(date + e_time).toISOString(),
+        //   description: description,
+        //   location: location,
+        //   tags: postTag,
+        //   flyer: "",
+        //   lng: lng,
+        //   lat: lat
+        // };
+        
+        // console.log(payload)
+
+        
        
     };
 
@@ -136,9 +182,10 @@ function Post(){
                     <input type="text" placeholder="Event Location" onChange={handleLocation}  style = {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>
                 */}
-                <div className="locationDropDown">
-                    <select value = {value} onChange = {dropDownChange} style={{width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px'}} >
-                        
+                <div className="locationDropDown" style = {{ marginTop: 20, textAlign: "center" }}>
+                    <select value = {value} onChange = {dropDownChange} style={{ height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px'}} >
+                        {/* {location.map( lo => 
+                            <option value = {lo}>{lo}</option>)} */}
                         <option value = "Price Center">Price Center</option>
                         <option value = "Geisel Library">Geisel Library</option>
                         <option value = "CSE Building">CSE Building</option>
@@ -221,7 +268,7 @@ function Post(){
                     <input 
                         type="file" 
                         name="file" 
-                        onChange={e => setFlyer(e.target.value)}
+                        onChange={handleFlyerUpload}
                         style = {{ width: '50%', height: '30px', borderRadius: 8, paddingLeft: 10, paddingTop: 5, fontSize: '16px' }} 
                     />
                 </div>

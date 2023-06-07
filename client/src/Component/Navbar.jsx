@@ -9,7 +9,8 @@ export default function Navbar({ loggedIn }){
                 {loggedIn && 
                 <>
                 <div><a href="/post"><button style = {{ cursor: 'pointer', fontWeight: 'bold', borderRadius: 20, border: 'none', padding: 10, paddingRight: 23, paddingLeft: 23, backgroundColor: '#5785E8', color: 'white', width: 150, marginRight: 10 }}>Create an Event</button></a></div>
-                <div><a href="/profile"><button style = {{ cursor: 'pointer', fontWeight: 'bold', borderRadius: 20, border: 'none', padding: 10, paddingRight: 25, paddingLeft: 25, backgroundColor: '#5785E8', color: 'white', width: 150 }}>View Profile</button></a></div>
+                <div><a href="/profile"><button style = {{ cursor: 'pointer', fontWeight: 'bold', borderRadius: 20, border: 'none', padding: 10, paddingRight: 25, paddingLeft: 25, backgroundColor: '#5785E8', color: 'white', width: 150, marginRight: 10 }}>View Profile</button></a></div>
+                <div><a href="/profile"><button style = {{ cursor: 'pointer', fontWeight: 'bold', borderRadius: 20, border: 'none', padding: 10, paddingRight: 25, paddingLeft: 25, backgroundColor: '#5785E8', color: 'white', width: 150 }}>Logout</button></a></div>
                 </>
                 }
                 {loggedIn == false &&
