@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import "./UserProfile.css";
-import LogoBar from '../Component/LogoBar';
+//import LogoBar from '../Component/LogoBar';
 import Navbar from '../Component/Navbar';
 import EventCard from "../Component/Card"
 import UserProfileCard from "../Component/UserProfileCard"
 import API from '../API.js';
+import {useNavigate, useLocation} from 'react-router-dom'
+import axios from 'axios'
 //import eventData from "../event-data.json";
-import userData from "../user-profile-data.json"
+//import userData from "../user-profile-data.json"
 
 
 function ElementsLeft(eventData) {
@@ -31,9 +33,9 @@ return rightElements;
 }
 
 function UserProfile() {
-    const [eventData, setEventData] = useState([])
-    //const [userData, setUsername] = useState([])
-    //const eventCount = eventData.length;
+    const [eventData, setProfileEventData] = useState([])
+    const [userData, setUsername] = useState([])
+    /*const eventCount = eventData.length;
     const elements = eventData.map( e => 
         <EventCard 
         title={e.title}
@@ -45,22 +47,66 @@ function UserProfile() {
      /> )
 
     useEffect(() => {
-        API.getEvents().then((response) => {
-            setEventData(response.data);
+        API.getProfileEvents().then((response) => {
+            setProfileEventData(response.data);
         });
     }, []);
-    /*useEffect(() => {
+    useEffect(() => {
         API.getOrganization().then((response) => {
             setUsername(response.data);
         });
     }, []);
     */
+    const getUserEvents = async () => {
+        axios.get('http://localhost:4000/events/profile') 
+            .then(function(response) {
+                console.log(response);
+                const userEvents = response.data;
+                setProfileEventData(userEvents);
+            })
+            .catch(function(error) {
+                console.log("ERROR!!!!" + error);
+            }
+        )
+    };
+
+    useEffect(() => {
+        getUserEvents();
+    }, []);
     
+
+    function stringToDate(inputDate) {
+        let date = new Date(inputDate);
+        let dateString = date.toLocaleString("en-US", {
+            timeZone: "America/Los_Angeles"
+        })
+        return dateString;
+    }
+    const navigate = useNavigate();
+    const location = useLocation();
+    let loggedIn = false; 
+
+    if (location.state && location.state.loggedIn) {
+        loggedIn = true;
+    }
+
+    if (loggedIn === false) {
+        navigate('/login');
+    }
+
+    const elements = eventData.map((e, index) => 
+        <EventCard 
+        key={index}
+        title={e.title}
+        date={stringToDate(e.date)}
+        flyer={e.flyer}
+        description={e.description}
+        tags={e.tags}
+     /> )
     return (
         <>
             {/**Logo Here */}
-            <Navbar />
-            &emsp;
+            <Navbar loggedIn={loggedIn} />
             <h1 style = {{marginLeft: 80}}>Your Profile</h1>
             <div className='UserProfile'>
                 <div style = {{marginInline: 50}}>
@@ -68,8 +114,6 @@ function UserProfile() {
                     userData.map( user => 
                         <UserProfileCard 
                         name={user.name}
-                        description={user.description}
-                        url={user.url}
                          /> )    
                     }
                 </div>
@@ -88,7 +132,6 @@ function UserProfile() {
                     </div>
                 </div>
             </div>
-            &emsp;
         </>
     )
 }
