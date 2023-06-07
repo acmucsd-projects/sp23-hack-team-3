@@ -1,3 +1,4 @@
+import axios from 'axios'
 export default function Navbar({ loggedIn }){
     console.log("In navbar: ", loggedIn)
     
