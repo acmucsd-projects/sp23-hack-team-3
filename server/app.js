@@ -25,6 +25,7 @@ app.use(
     secret: `${process.env.SESSION_SECRET}`,
     resave: false,
     saveUninitialized: false,
+    cookie: { path: '/', httpOnly: false, secure: false, maxAge: null }
   })
 );
 app.use(cookieParser());
@@ -45,9 +46,8 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/authtest', sessionHandler.ensureAuthenticated, async (req, res) => {
-  res.status(200).json({message: "YOU ARE LOGGED IN!"});
+  res.status(200).json({ logged: "true"});
 });
-
 
 
 //ACTUAL WEBSITE ROUTES

@@ -20,7 +20,6 @@ const s3 = new S3Client({
 
 const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');  
 
-
 //actual controllers
 const getEvents = async (req, res) => {
     const events = await Event.find({}).sort({

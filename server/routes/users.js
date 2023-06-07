@@ -6,9 +6,9 @@ const sessionHandler = require('../auth/session.js');
 require('../auth/local');
 
 
-router.post('/register', sessionHandler.alreadyAuthenticated, userController.registerUser);
+router.post('/register', sessionHandler.alreadyAuthenticatedLoginRegister, userController.registerUser);
 
-router.post('/login', sessionHandler.alreadyAuthenticated, function (req, res, next) {
+router.post('/login', sessionHandler.alreadyAuthenticatedLoginRegister, function (req, res, next) {
   passport.authenticate("local", function (err, user, info) {
     if (err) {
       return res.status(401).json({ message: "Failed Login", logged: false });
@@ -18,7 +18,6 @@ router.post('/login', sessionHandler.alreadyAuthenticated, function (req, res, n
     }
     req.logIn(user, function (err) {
       if (err) {
-        console.log("WHYYYY4")
         return next(err);
       }
       //If Successful
