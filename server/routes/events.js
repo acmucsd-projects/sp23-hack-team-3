@@ -22,13 +22,14 @@ const s3 = new S3Client({
 
 //actual routing, revamped (following charvi example code)
 router.get('/', eventController.getEvents);
-router.get('/profile', /*sessionHandler.ensureAuthenticated*/, eventController.getProfileEvents);
+router.get('/profile', sessionHandler.ensureAuthenticated, eventController.getProfileEvents);
 router.post('/',  sessionHandler.ensureAuthenticated, upload.single('flyer'), eventController.createEvent);
 
 router.post('/imagetest',  sessionHandler.ensureAuthenticated, upload.single('flyer'), async (req, res) => {
     
     const eventobj = JSON.parse(JSON.stringify(req.body));
     eventobj.tags = JSON.parse(eventobj.tags);
+    console.log(req.body);
     console.log(req.file);
     if (!req.file)
     {

@@ -45,6 +45,7 @@ const getEvents = async (req, res) => {
 
 const getProfileEvents = async (req, res) => {
     const userID = req.user;
+    console.log(req.user);
     try 
     {
         const org = await Organization.find({ "userID": req.user});
@@ -73,6 +74,7 @@ const getProfileEvents = async (req, res) => {
 
     }
     catch (error) {
+        console.log(err.message)
         return res.status(400).json({message: `Error in grabbing user's events: ${error.message}`});
     }
 }
