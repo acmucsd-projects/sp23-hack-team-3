@@ -39,29 +39,6 @@ function UserProfile() {
     // const [loggedIn, setLoggedIn] = useState(false)
     const navigate = useNavigate();
     
-
-    /*const eventCount = eventData.length;
-    const elements = eventData.map( e => 
-        <EventCard 
-        title={e.title}
-        start={e.s_time}
-        end={e.end_time}
-        date={e.date}
-        url={e.url}
-        description={e.description}
-     /> )
-
-    useEffect(() => {
-        API.getProfileEvents().then((response) => {
-            setProfileEventData(response.data);
-        });
-    }, []);
-    useEffect(() => {
-        API.getOrganization().then((response) => {
-            setUsername(response.data);
-        });
-    }, []);
-    */
     const getUserEvents = async () => {
         axios.get('http://localhost:4000/events/profile', {withCredentials: true}) 
             .then(function(response) {
@@ -88,10 +65,15 @@ function UserProfile() {
 
     function stringToDate(inputDate) {
         let date = new Date(inputDate);
-        let dateString = date.toLocaleString("en-US", {
-            timeZone: "America/Los_Angeles"
-        })
+        // remove the seconds
+        const dateString =`${date.toLocaleDateString()}, ${date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
         return dateString;
+    }
+
+    function handleEndTime(date2) {
+        const date = new Date(date2);
+        // console.log(date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }))
+        return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
     }
    
 
@@ -100,9 +82,11 @@ function UserProfile() {
         key={index}
         title={e.title}
         date={stringToDate(e.date)}
+        date2={handleEndTime(e.date2)}
         flyer={e.flyer}
         description={e.description}
         tags={e.tags}
+        organization={e.organization}
      /> )
     return (
         <>
