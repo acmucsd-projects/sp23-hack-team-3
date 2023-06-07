@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import "./UserProfile.css";
-//import LogoBar from '../Component/LogoBar';
-import Navbar from '../Component/Navbar';
 import EventCard from "../Component/Card"
 import UserProfileCard from "../Component/UserProfileCard"
 import API from '../API.js';
-import {useNavigate, useLocation} from 'react-router-dom'
+import {useLocation} from 'react-router-dom'
 import axios from 'axios'
-//import eventData from "../event-data.json";
-//import userData from "../user-profile-data.json"
+import Cookies from 'js-cookie'
+import LogoBar from '../Component/LogoBar';
+
 
 
 function ElementsLeft(eventData) {
@@ -32,9 +31,15 @@ function ElementsRight(eventData) {
 return rightElements;
 }
 
+
+
 function UserProfile() {
     const [eventData, setProfileEventData] = useState([])
     const [userData, setUsername] = useState([])
+    // const [loggedIn, setLoggedIn] = useState(false)
+    const navigate = useNavigate();
+    
+
     /*const eventCount = eventData.length;
     const elements = eventData.map( e => 
         <EventCard 
@@ -58,10 +63,11 @@ function UserProfile() {
     }, []);
     */
     const getUserEvents = async () => {
-        axios.get('http://localhost:4000/events/profile') 
+        axios.get('http://localhost:4000/events/profile', {withCredentials: true}) 
             .then(function(response) {
                 console.log(response);
                 const userEvents = response.data;
+
                 setProfileEventData(userEvents);
             })
             .catch(function(error) {
@@ -71,6 +77,11 @@ function UserProfile() {
     };
 
     useEffect(() => {
+        // if( Cookies.get('connect.sid' === undefined)){
+        //     console.log("hello131")
+        // } else {
+        //     setLoggedIn(true)
+        // }
         getUserEvents();
     }, []);
     
@@ -82,17 +93,7 @@ function UserProfile() {
         })
         return dateString;
     }
-    const navigate = useNavigate();
-    const location = useLocation();
-    let loggedIn = false; 
-
-    if (location.state && location.state.loggedIn) {
-        loggedIn = true;
-    }
-
-    if (loggedIn === false) {
-        navigate('/login');
-    }
+   
 
     const elements = eventData.map((e, index) => 
         <EventCard 
@@ -106,7 +107,7 @@ function UserProfile() {
     return (
         <>
             {/**Logo Here */}
-            <Navbar loggedIn={loggedIn} />
+            <LogoBar/>
             <h1 style = {{marginLeft: 80}}>Your Profile</h1>
             <div className='UserProfile'>
                 <div style = {{marginInline: 50}}>

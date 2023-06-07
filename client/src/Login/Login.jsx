@@ -2,6 +2,9 @@ import React, {useState} from "react"
 import LogoBar from '../Component/LogoBar';
 import axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
+import Cookies from 'js-cookie'
+import { useEffect } from "react";
+
 export default function Login (){
 
     axios.defaults.withCredentials = true;
@@ -9,16 +12,24 @@ export default function Login (){
     const [email, setEmail] = useState("")
     const [failed, setFailed] = useState(false)
     const navigate = useNavigate()
-    let loggedIn = false
 
-    const location = useLocation();
-    if( location.state && location.state.loggedIn){
-        loggedIn = true
-    }
+    // let loggedIn = false
 
-    if( loggedIn ){
-        navigate('/')
-    }
+    // const location = useLocation();
+    // if( location.state && location.state.loggedIn){
+    //     loggedIn = true
+    // }
+
+    // if( loggedIn ){
+    //     navigate('/')
+    // }
+
+    useEffect( () => {
+        if( Cookies.get('connect.sid') != undefined ){
+            navigate('/')
+        }
+    }, [])
+    
 
     const handleSubmit = async (event) => {
 

@@ -2,10 +2,10 @@ import Navbar from '../Component/Navbar';
 import EventCard from "../Component/Card"
 import "./Home.css";
 import MapSection from '../Map/Map'
-// import eventData from "../event-data.json";
 import { useState, useEffect } from "react";
 import API from '../API.js';
-import { useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie'
+// import { useLocation } from 'react-router-dom';
 
 const center = {
     lat: 32.8801,
@@ -14,15 +14,16 @@ const center = {
 
 export default function Home() {
 
-    const location = useLocation();
-    let loggedIn = false; 
+    // const location = useLocation();
+    // let loggedIn = false; 
 
-    if (location.state && location.state.loggedIn) {
-        loggedIn = location.state.loggedIn;
-    }
+    // if (location.state && location.state.loggedIn) {
+    //     loggedIn = location.state.loggedIn;
+    // }
 
-    console.log("loggedIn: ", loggedIn); 
+    
     const [eventData, setEventData] = useState([])
+    const [loggedIn, setLoggedIn] = useState(false)
     
     function stringToDate(inputDate) {
         let date = new Date(inputDate);
@@ -32,11 +33,34 @@ export default function Home() {
         return dateString;
     }
 
+    
+
     useEffect(() => {
+        
+
+        const handleCookieLogic = () => {
+            console.log("cookie in Post: ", Cookies.get('connet.sid'))
+            console.log("not cookie: ", !Cookies.get('connet.sid'))
+            if( Cookies.get('connect.sid') != undefined ){
+                setLoggedIn(true)
+            }
+          };
+      
+        // Wait for the DOM content to load
+        document.addEventListener('DOMContentLoaded', handleCookieLogic);
+      
         API.getEvents().then((response) => {
-            setEventData(response.data);
+        setEventData(response.data);
         });
+        
+        // Clean up the event listener when the component unmounts
+        return () => {
+            document.removeEventListener('DOMContentLoaded', handleCookieLogic);
+        };
     }, []);
+
+    console.log("loggedIn: ", loggedIn);
+    console.log(Cookies.get('connect.sid') != undefined) 
 
     return (
         <>
