@@ -2,9 +2,14 @@ const Event = require('../models/eventModel.js');
 const Organization = require('../models/organizationModel');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const crypto = require('crypto');
 dotenv.config();
 
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+
+
+//setup
+const { S3Client, PutObjectCommand, GetObjectCommand} = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const s3 = new S3Client({
     credentials: {
         accessKeyId: process.env.S3_ACCESS_KEY,
@@ -13,10 +18,28 @@ const s3 = new S3Client({
     region: process.env.BUCKET_REGION
 });
 
+const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');  
+
+
+//actual controllers
 const getEvents = async (req, res) => {
     const events = await Event.find({}).sort({
         createdAt: -1
     })
+    for (x in events)
+    {
+        if (events[x].flyer!="logo512.png")
+        {
+            const getObjectParams = {
+                Bucket: process.env.BUCKET_NAME,
+                Key: events[x].flyer
+            }
+
+            const command = new GetObjectCommand(getObjectParams);
+            const url = await getSignedUrl(s3, command, {expiresIn: 3600});
+            events[x].flyer=url;
+        }
+    }
     
     return res.status(200).json(events);
 }
@@ -30,6 +53,23 @@ const getProfileEvents = async (req, res) => {
         const orgID = org[0]._id;
         //now use this orgID to get events!
         const events = await Event.find({"orgID": orgID});
+
+        for (x in events)
+        {
+            if (events[x].flyer!="logo512.png")
+            {
+                const getObjectParams = {
+                    Bucket: process.env.BUCKET_NAME,
+                    Key: events[x].flyer
+                }
+    
+                const command = new GetObjectCommand(getObjectParams);
+                const url = await getSignedUrl(s3, command, {expiresIn: 3600});
+                events[x].flyer=url;
+            }
+        }
+
+
         return res.status(200).json(events);
 
     }
@@ -39,15 +79,34 @@ const getProfileEvents = async (req, res) => {
 }
 
 const createEvent = async (req, res) => {
-    const EventObject = req.body;
+    const EventObject = JSON.parse(JSON.stringify(req.body));
+    EventObject.tags = JSON.parse(EventObject.tags);
     try 
     {
+        //first attempt an image upload!
+        EventObject.flyer = "logo512.png";
+        if (req.file)
+        {
+            const randGeneratedImageName = randomImageName();
+            const params = {
+                Bucket: process.env.BUCKET_NAME,
+                Key: randGeneratedImageName,
+                Body: req.file.buffer,
+                ContentType: req.file.mimetype,
+            }
+            const command = new PutObjectCommand(params);
+            await s3.send(command);
+            EventObject.flyer = randGeneratedImageName;
+        }
+        
+
         //we first grab orgID associated with req.user._id, then attach to eventobject
         const org = await Organization.find({ "userID": req.user._id});
-
         EventObject.orgID = org[0]._id;
-        //EventObject.orgID = "6466d538b8554d8cf0783e58";
+        
+        
         await Event.create(EventObject);
+
     }
     catch (error) {
         return res.status(409).json({message: `Error in event creation: ${error.message}`});
