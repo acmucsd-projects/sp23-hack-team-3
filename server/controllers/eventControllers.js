@@ -85,6 +85,7 @@ const getProfileEvents = async (req, res) => {
 }
 
 const createEvent = async (req, res) => {
+
     const EventObject = JSON.parse(JSON.stringify(req.body));
     EventObject.tags = JSON.parse(EventObject.tags);
     try 
