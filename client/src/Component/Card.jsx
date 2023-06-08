@@ -7,7 +7,7 @@ import { CardActionArea } from "@mui/material";
 import axios from 'axios'
 import { useState } from 'react'
 
-export default function EventCard({ title, date, date2, location, flyer, description, tags, organization, del, _id }) {
+export default function EventCard({ title, date, date2, location, flyer, description, tags, organization, del, _id, setMapCenter, setZoom, latitude, longitude }) {
 
   const [enlargeFlyer, setEnlargeFlyer] = useState(false)
 
@@ -21,10 +21,18 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
     })
   }
 
+  const handleClick = () => {
+    setMapCenter({
+      lat: parseFloat(latitude),
+      lng: parseFloat(longitude),
+    })
+    setZoom(18)
+  }
   
   return (
     <>
     <Card sx={{ width: "45vw", height: "25vh", marginTop: "3.5vh" }}>
+      <CardActionArea onClick={handleClick}>
         <div
           style={{
             height: "25vh",
@@ -75,6 +83,7 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
             </CardContent>
           </div>
         </div>
+      </CardActionArea>
     </Card>
 
     {
