@@ -1,9 +1,10 @@
 import axios from 'axios'
+axios.defaults.withCredentials = true;
 export default function Navbar({ loggedIn }){
     console.log("In navbar: ", loggedIn)
     
     const handleLogout = () => {
-        axios.post('http://localhost:4000/users/logout', {withCredentials: true})
+        axios.post('http://localhost:4000/users/logout', { withCredentials: true})
         .then(response => {
             console.log(response)
             console.log(response.status)
