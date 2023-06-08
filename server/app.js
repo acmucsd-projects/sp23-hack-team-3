@@ -22,6 +22,7 @@ app.use(logger('dev'));
 
 app.use(
   session({
+    credentials: true,
     secret: `${process.env.SESSION_SECRET}`,
     resave: false,
     saveUninitialized: false,
