@@ -186,7 +186,6 @@ function Post(){
                         <input 
                             type="date" 
                             name="date"
-                            
                             onChange={e => setDate(e.target.value)}
                             min={new Date().toISOString().split("T")[0]}
 
@@ -197,7 +196,6 @@ function Post(){
                         <input 
                         type="time" 
                         name="start_time"
-                        step="1800"
                         onChange={handleSetStartTime}
                         style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5}} 
                         required
@@ -206,7 +204,6 @@ function Post(){
                     <div className="form-control">
                         <input 
                         type="time" 
-                        step="600"
                         name="end_time"
                         onChange={handleSetEndTime}
                         style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5}} 
