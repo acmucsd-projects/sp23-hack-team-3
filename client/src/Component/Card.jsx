@@ -53,7 +53,7 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
             />
             
           </div>
-          <div style={{ height: "27vh", width: "30vw", overflowY: "scroll" }}>
+          <div style={{ height: "29vh", width: "30vw", overflowY: "scroll" }}>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {title}
