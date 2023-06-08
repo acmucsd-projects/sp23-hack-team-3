@@ -19,14 +19,14 @@ export default function Signup (){
         event.preventDefault();
 
         const payload = {
-            organization: organization,
+            //organization: organization,
             email: email,
             password: password
         }
 
         console.log(payload);
 
-        axios.post("http://localhost:4000/users/register", payload)
+        axios.post('http://localhost:4000/users/login', payload, {withCredentials: true})
             .then(function (response){
                 console.log("ok: ", response.status === 201 );
 

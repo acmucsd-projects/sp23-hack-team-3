@@ -51,15 +51,15 @@ const getProfileEvents = async (req, res) => {
     console.log(req.user);
     try 
     {
-        const org = await Organization.find({ "userID": req.user});
-        console.log("org: ", org)
+        // const org = await Organization.find({ "userID": req.user});
+        // console.log("org: ", org)
 
-        const orgID = org[0]._id;
-        console.log("org[0]", org[0])
-        console.log("._id", org[0]._id)
+        // const orgID = org[0]._id;
+        // console.log("org[0]", org[0])
+        // console.log("._id", org[0]._id)
 
         //now use this orgID to get events!
-        const events = await Event.find({"orgID": orgID});
+        const events = await Event.find({"orgID": req.user});
 
         for (x in events)
         {
@@ -91,8 +91,6 @@ const createEvent = async (req, res) => {
 
     const EventObject = JSON.parse(JSON.stringify(req.body));
     EventObject.tags = JSON.parse(EventObject.tags);
-    console.log(EventObject.date)
-    console.log(EventObject.date2)
     
     EventObject.date = new Date(EventObject.date).addHours(7).toISOString();
     EventObject.date2 = new Date(EventObject.date2).addHours(7).toISOString();
@@ -116,8 +114,10 @@ const createEvent = async (req, res) => {
         
 
         //we first grab orgID associated with req.user._id, then attach to eventobject
-        const org = await Organization.find({ "userID": req.user._id});
-        EventObject.orgID = org[0]._id;
+        //since we kinda just got rid of orgs, we comment this out for now 
+        // const org = await Organization.find({ "userID": req.user._id});
+        // EventObject.orgID = org[0]._id;
+        EventObject.orgID = req.user;
         
         
         await Event.create(EventObject);
@@ -144,10 +144,15 @@ const deleteEvent = async (req, res) => {
         //if so, we can delete
         //if not, or org just doesn't exist, we do not delete and say permissions aren't valid
 
+        // const targetEvent = await Event.findById(id);
+        // const orgID = targetEvent.orgID;
+        // const targetOrg = await Organization.findById(mongoose.Types.ObjectId(orgID));
+        // if (!targetOrg || !targetOrg.userID.includes(req.user._id))
+        // {
+        //     throw new Error("You don't have permissions to delete this event");
+        // }
         const targetEvent = await Event.findById(id);
-        const orgID = targetEvent.orgID;
-        const targetOrg = await Organization.findById(mongoose.Types.ObjectId(orgID));
-        if (!targetOrg || !targetOrg.userID.includes(req.user._id))
+        if (targetEvent.orgID != req.user)
         {
             throw new Error("You don't have permissions to delete this event");
         }
