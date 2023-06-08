@@ -90,6 +90,7 @@ export default function Home() {
                                     setZoom={setMapZoom}
                                     latitude={e.lat}
                                     longitude={e.lng}
+                                    popup={true}
                                 />
                             ))
                         }
