@@ -4,8 +4,7 @@ import "./Home.css";
 import MapSection from '../Map/Map'
 import { useState, useEffect } from "react";
 import API from '../API.js';
-import Cookies from 'js-cookie'
-// import { useLocation } from 'react-router-dom';
+import axios from 'axios'
 
 const center = {
     lat: 32.8801,
@@ -13,14 +12,6 @@ const center = {
 }
 
 export default function Home() {
-
-    // const location = useLocation();
-    // let loggedIn = false; 
-
-    // if (location.state && location.state.loggedIn) {
-    //     loggedIn = location.state.loggedIn;
-    // }
-
     
     const [eventData, setEventData] = useState([])
     const [loggedIn, setLoggedIn] = useState(false)
@@ -28,7 +19,7 @@ export default function Home() {
     function stringToDate(inputDate) {
         let date = new Date(inputDate);
         // remove the seconds
-        const dateString =`${date.toLocaleDateString()}, ${date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+        const dateString =`${date.toDateString()}, ${date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
         return dateString;
     }
 
@@ -40,31 +31,25 @@ export default function Home() {
     
 
     useEffect(() => {
-        
 
-        const handleCookieLogic = () => {
-            console.log("cookie in Post: ", Cookies.get('connet.sid'))
-            console.log("not cookie: ", !Cookies.get('connet.sid'))
-            if( Cookies.get('connect.sid') != undefined ){
+        axios.get('http://localhost:4000/logged', {withCredentials: true})
+        .then( response => {
+            console.log(response.data.logged)
+            if( response.data.logged === true ){
                 setLoggedIn(true)
             }
-          };
-      
-        // Wait for the DOM content to load
-        document.addEventListener('DOMContentLoaded', handleCookieLogic);
+        })
+        .catch( err => {
+            console.log("logged: ", err)
+        })
       
         API.getEvents().then((response) => {
         setEventData(response.data);
         });
-        
-        // Clean up the event listener when the component unmounts
-        return () => {
-            document.removeEventListener('DOMContentLoaded', handleCookieLogic);
-        };
+
     }, []);
 
-    console.log("loggedIn: ", loggedIn);
-    console.log(Cookies.get('connect.sid') != undefined) 
+    
 
     return (
         <>
@@ -84,10 +69,12 @@ export default function Home() {
                             title={e.name}
                             date={stringToDate(e.date)}
                             date2={handleEndTime(e.date2)}
+                            location={e.location}
                             flyer={e.flyer}
                             description={e.description}
                             tags={e.tags}
                             organization={e.organization}
+                            del={false}
                             />
                         ))
                     }

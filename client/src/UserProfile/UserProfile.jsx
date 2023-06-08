@@ -43,6 +43,7 @@ function UserProfile() {
         axios.get('http://localhost:4000/events/profile', {withCredentials: true}) 
             .then(function(response) {
                 console.log(response);
+                console.log("data: ", response.data);
                 const userEvents = response.data;
 
                 setProfileEventData(userEvents);
@@ -54,11 +55,18 @@ function UserProfile() {
     };
 
     useEffect(() => {
-        // if( Cookies.get('connect.sid' === undefined)){
-        //     console.log("hello131")
-        // } else {
-        //     setLoggedIn(true)
-        // }
+        
+        axios.get('http://localhost:4000/logged', {withCredentials: true})
+        .then( response => {
+            console.log(response.data.logged)
+            if( response.data.logged !== true ){
+                navigate('/')
+            }
+        })
+        .catch( err => {
+            console.log("logged: ", err)
+        })
+
         getUserEvents();
     }, []);
     
@@ -80,13 +88,16 @@ function UserProfile() {
     const elements = eventData.map((e, index) => 
         <EventCard 
         key={index}
-        title={e.title}
+        title={e.name}
         date={stringToDate(e.date)}
         date2={handleEndTime(e.date2)}
         flyer={e.flyer}
         description={e.description}
         tags={e.tags}
         organization={e.organization}
+        location={e.location}
+        del={true}
+        _id={e._id}
      /> )
     return (
         <>

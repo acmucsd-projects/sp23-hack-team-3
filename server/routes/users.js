@@ -28,10 +28,12 @@ router.post('/login', sessionHandler.alreadyAuthenticatedLoginRegister, function
 
 router.post('/logout', function (req, res) {
   req.logout(function(err) {
-    if (err) { return next(err); }
-    return res.status(200).json({ message: "Unsuccessful logout", logged: false });
+    if (err) 
+    { 
+      return next(err); 
+    }
+    res.status(200).json({ message: "Unsuccessful logout", logged: false });
   });
-  return res.status(200).json({ message: "Successful Logout", logged: false });
 });
 
 module.exports = router;

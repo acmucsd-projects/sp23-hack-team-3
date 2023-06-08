@@ -3,7 +3,7 @@ export default function Navbar({ loggedIn }){
     console.log("In navbar: ", loggedIn)
     
     const handleLogout = () => {
-        axios.get('http://localhost:4000/users/logout')
+        axios.post('http://localhost:4000/users/logout', {withCredentials: true})
         .then(response => {
             console.log(response)
             console.log(response.status)

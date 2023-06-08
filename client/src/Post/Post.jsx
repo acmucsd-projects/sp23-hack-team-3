@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import "./Post.css";
 import LogoBar from '../Component/LogoBar';
 import axios from 'axios';
-import location from '../locationTranslation.json'
-import Cookies from 'js-cookie'
+import lt from '../locationTranslation.json'
 
 
 
@@ -18,7 +17,7 @@ function Post(){
     const [date, setDate] = useState("");
     const [s_time, setStartTime] = useState("");
     const [e_time, setEndTime] = useState("");
-    const [location, setLocation] = useState("Price Center");
+    const [location, setLocation] = useState("PC");
     const [lng, setlng] = useState("32.8879708");
     const [lat, setlat] = useState("-117.2447013");
     const [tag, setTag] = React.useState({
@@ -28,41 +27,53 @@ function Post(){
         Raffle: false,
         Giveaways: false
       });
-    const [postTag, setPostTag] = useState('["a", "b", "c"]');
+    const [postTag, setPostTag] = useState('');
     const [flyer, setFlyer] = useState([]);
-    const [value, setValue] = useState("");
+    const [val, setValue] = useState("");
     const [failed, setFailed] = useState(false);
 
     useEffect( () => {
-        if( Cookies.get('connect.sid') === undefined ){
-            navigate('/login')
-        }
+        axios.get('http://localhost:4000/logged', {withCredentials: true})
+        .then( response => {
+            // console.log("post: ", response.data.logged)
+            if( response.data.logged !== true ){
+                navigate('/')
+            }
+        })
+        .catch( err => {
+            console.log("logged: ", err)
+        })
     }, [])
 
     const handleToggle = ({ target }) =>
     setTag(s => ({ ...s, [target.name]: !s[target.name] }));
 
-    const handlePostTag = () => {
-        // const selectedTags = Object.entries(tag)
-        // .filter(([key, value]) => value)
-        // .map(([key]) => key);
+    useEffect( () => {
+        let selectedTags = Object.entries(tag) 
+        .filter(([key, value]) => value);
 
-        // setPostTag(selectedTags);
-        setPostTag('["a", "b", "c"]')
-        console.log("postTag in handlePost: ", postTag);
-    }
+        selectedTags = selectedTags.map(t => t[0])
 
-    const parseTag = (key) => {
-        return key.replace(/_/g, ' ');
+        selectedTags = JSON.stringify(selectedTags)
+
+        console.log("selectedTags: ", selectedTags) 
+
+        setPostTag(selectedTags); 
+    }, [tag])
+    
+    const parseTag = (text) => {
+        return text.replace(/_/g, ' ');
     };
 
-    const handleLocation = () => {
-
-        setLocation("Price Center");
-        setlng("32.8861");
-        setlat("-117.2340");
-    }
-
+    useEffect( () => {
+        const lt_list = Object.keys(lt);
+        const v_list = Object.values(lt);
+        
+        setLocation(lt_list[val]);
+        setlng(v_list[0].lng);
+        setlat(v_list[0].lat);
+    }, [val])
+    
     const handleSetStartTime = (e) => {
         setStartTime('T' + e.target.value + ':00.000Z')
     }
@@ -71,15 +82,18 @@ function Post(){
         setEndTime('T' + e.target.value + ':00.000Z');        
     }
     
-    const dropDownValue = () => {
-        const value = "Event Location"
-        return value;
-    } 
+    // const dropDownValue = () => {
+    //     const value = "Event Location"
+    //     return value;
+    // } 
+
 
     const dropDownChange = (e) => {
         setValue(e.target.value)
-        handleLocation()
     }
+    console.log("val: ", val)
+    console.log(lt[val])
+
 
     const handleFlyerUpload = async (event) => {
         const file = event.target.files?.[0];
@@ -90,16 +104,10 @@ function Post(){
         }
 
     }
-
-   
-    
     
     const handlePost = async (event) => {
 
         event.preventDefault();
-
-        handlePostTag(); //NOT WORKING YET
-        console.log("postTag: ", postTag);
 
         setFailed(false)
 
@@ -139,24 +147,6 @@ function Post(){
                     }
                     
             })
-
-        // const payload = {
-        //   name: title,
-        //   organization: organizer,
-        //   orgID: "6466d538b8554d8cf0783e58",
-        //   date: new Date(date + s_time).toISOString(),
-        //   date2: new Date(date + e_time).toISOString(),
-        //   description: description,
-        //   location: location,
-        //   tags: postTag,
-        //   flyer: "",
-        //   lng: lng,
-        //   lat: lat
-        // };
-        
-        // console.log(payload)
-
-        
        
     };
 
@@ -178,25 +168,13 @@ function Post(){
                 <div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
                     <input type="text" placeholder="Organizer" onChange={e => setOrganizer(e.target.value)} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>
-                {/*<div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
-                    <input type="text" placeholder="Event Location" onChange={handleLocation}  style = {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
-                </div>
-                */}
+                
                 <div className="locationDropDown" style = {{ marginTop: 20, textAlign: "center" }}>
-                    <select value = {value} onChange = {dropDownChange} style={{ height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px'}} >
-                        {/* {location.map( lo => 
-                            <option value = {lo}>{lo}</option>)} */}
-                        <option value = "Price Center">Price Center</option>
-                        <option value = "Geisel Library">Geisel Library</option>
-                        <option value = "CSE Building">CSE Building</option>
-                        <option value = "Center Hall">Center Hall</option>
-                        <option value = "Warren College">Warren College</option>
-                        <option value = "Sixth College">Sixth College</option>
-                        <option value = "Revelle College">Revelle College</option>
-                        <option value = "Muir College">Muir College</option>
-                        <option value = "Eleanor Roosevelt College">Eleanor Roosevelt College</option>
-                        <option value = "Marshall College">Marshall College</option>
-                        <option value = "Seventh College">Seventh College</option>
+                    <select value = {val} onChange = {dropDownChange} style={{ width: '51%', height: '40px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px'}} >
+                        
+                        {Object.keys(lt).map((lo, inx) => (
+                        <option value={inx}>{lo}</option>))}
+                        
                     </select>                   
                 </div>
 
@@ -275,6 +253,7 @@ function Post(){
 
                 { failed && <p style={{ color: 'red', textAlign: 'center' }}>Posting failed. Please try again.</p>}
 
+                {/* <button onClick={handlePostTag}>testing</button> */}
                 <div className="form-control" style = {{ marginTop: 30, marginBottom: 50, width: '50%', marginLeft: 'auto', marginRight: 'auto' }}>
                     <button type="submit" class="button">Create Event</button>
                 </div>
