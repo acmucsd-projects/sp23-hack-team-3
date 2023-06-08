@@ -5,8 +5,11 @@ import Typography from "@mui/material/Typography";
 import Tag from "./Tag";
 import { CardActionArea } from "@mui/material";
 import axios from 'axios'
+import { useState } from 'react'
 
 export default function EventCard({ title, date, date2, location, flyer, description, tags, organization, del, _id }) {
+
+  const [enlargeFlyer, setEnlargeFlyer] = useState(false)
 
   const handleDelete = () => {
     axios.delete(`http://localhost:4000/events/${_id}`, {withCredentials: true})
@@ -18,7 +21,9 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
     })
   }
 
+  
   return (
+    <>
     <Card sx={{ width: "45vw", height: "25vh", marginTop: "3.5vh" }}>
         <div
           style={{
@@ -29,12 +34,15 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
           }}
         >
           <div style={{ height: "25vh", width: "15vw" }}>
-            <CardMedia
+            
+              <CardMedia
               component="img"
-              sx={{ height: "23vh", width: "13vw", padding: "0.5vw" }}
+              sx={{ height: "23vh", width: "13vw", padding: "0.5vw", cursor: 'pointer' }}
               image={flyer}
               alt=""
+              onClick={() => setEnlargeFlyer(true)}
             />
+            
           </div>
           <div style={{ height: "25vh", width: "30vw", overflowY: "scroll" }}>
             <CardContent>
@@ -62,11 +70,22 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
               </div>
 
               { del && <div style={{ marginTop: "2vh", marginBottom: "2vh" }}>
-                <button onClick={handleDelete}>Delete</button>
+                <button onClick={handleDelete} style={{backgroundColor: 'red', color: 'white', border: 'none', cursor: 'pointer', paddingRight: '10px', paddingLeft: '10px', paddingTop: '5px', paddingBottom: '5px', borderRadius: 5}}>Delete</button>
               </div>}
             </CardContent>
           </div>
         </div>
     </Card>
+
+    {
+      enlargeFlyer && 
+      <div style={{ top: 0, left: 0, position: 'absolute', border: 'solid', backgroundColor: 'white' }}>
+        <div>
+          x
+        </div>
+        hellllllo
+      </div>
+    }
+    </>
   );
 }
