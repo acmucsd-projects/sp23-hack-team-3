@@ -119,15 +119,6 @@ function UserProfile() {
             </div> */}
             {/** Implementation of Events */}
             <h1 style = {{textAlign: 'center'}}>Your Events</h1>
-
-            {/* somehow this mess up the styling for the cards */}
-            {/* <span style ={{ display: 'flex', justifyContent: 'center'}}>
-                {elements.length > 0 ? (
-                    ElementsLeft(elements)
-                ) : (
-                    <h4>You don't have any events.</h4>
-                )}
-            </span> */} 
             <div className='row'>
                 <div className='LeftColumn'>
                     <div style={{ marginLeft: "4vw" }}>
