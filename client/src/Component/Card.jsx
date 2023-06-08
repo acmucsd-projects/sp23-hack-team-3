@@ -31,28 +31,28 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
   
   return (
     <>
-    <Card sx={{ width: "45vw", height: "25vh", marginTop: "3.5vh" }}>
+    <Card sx={{ width: "45vw", height: "27vh", marginTop: "3.5vh" }}>
       <CardActionArea onClick={handleClick}>
         <div
           style={{
-            height: "25vh",
+            height: "27vh",
             width: "45vw",
             display: "flex",
             position: "relative",
           }}
         >
-          <div style={{ height: "25vh", width: "15vw" }}>
+          <div style={{ height: "27vh", width: "15vw" }}>
             
               <CardMedia
               component="img"
-              sx={{ height: "23vh", width: "13vw", padding: "0.5vw", cursor: 'pointer' }}
+              sx={{ height: "25vh", width: "13vw", padding: "0.5vw", cursor: 'pointer' }}
               image={flyer}
               alt=""
               onClick={() => setEnlargeFlyer(true)}
             />
             
           </div>
-          <div style={{ height: "25vh", width: "30vw", overflowY: "scroll" }}>
+          <div style={{ height: "27vh", width: "30vw", overflowY: "scroll" }}>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {title}
