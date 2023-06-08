@@ -95,6 +95,8 @@ function UserProfile() {
         description={e.description}
         tags={e.tags}
         organization={e.organization}
+        location={e.location}
+        del={true}
         _id={e._id}
      /> )
     return (

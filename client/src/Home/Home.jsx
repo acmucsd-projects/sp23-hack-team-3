@@ -4,9 +4,7 @@ import "./Home.css";
 import MapSection from '../Map/Map'
 import { useState, useEffect } from "react";
 import API from '../API.js';
-import Cookies from 'js-cookie'
 import axios from 'axios'
-// import { useLocation } from 'react-router-dom';
 
 const center = {
     lat: 32.8801,
@@ -14,14 +12,6 @@ const center = {
 }
 
 export default function Home() {
-
-    // const location = useLocation();
-    // let loggedIn = false; 
-
-    // if (location.state && location.state.loggedIn) {
-    //     loggedIn = location.state.loggedIn;
-    // }
-
     
     const [eventData, setEventData] = useState([])
     const [loggedIn, setLoggedIn] = useState(false)
@@ -29,7 +19,7 @@ export default function Home() {
     function stringToDate(inputDate) {
         let date = new Date(inputDate);
         // remove the seconds
-        const dateString =`${date.toString().substring(0,11).trim()}, ${date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+        const dateString =`${date.toDateString()}, ${date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
         return dateString;
     }
 
