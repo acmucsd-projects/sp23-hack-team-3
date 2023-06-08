@@ -91,17 +91,6 @@ function Post(){
 
     }
 
-    const checkDate = (e) => {
-        const today = new Date($.now())
-        if (Date.parse(e.target.value) < Date.parse(today)) {
-            console.log("Date is invalid!")
-            return ""
-        }
-        else {
-            return setDate(e.target.value)
-        }
-    }
-
    
     
     
@@ -216,7 +205,7 @@ function Post(){
                         <input 
                             type="date" 
                             name="date"
-                            onChange={e => checkDate(e.target.value)}
+                            onChange={e => setDate(e.target.value)}
                             style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5 }} 
                         />
                     </div>
