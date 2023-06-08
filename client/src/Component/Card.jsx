@@ -26,7 +26,7 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
       lat: parseFloat(latitude),
       lng: parseFloat(longitude),
     })
-    setZoom(18)
+    setZoom(17)
   }
   
   return (
