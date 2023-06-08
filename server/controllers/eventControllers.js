@@ -6,7 +6,10 @@ const crypto = require('crypto');
 dotenv.config();
 
 
-
+Date.prototype.addHours = function(h) {
+    this.setTime(this.getTime() + (h*60*60*1000));
+    return this;
+}
 //setup
 const { S3Client, PutObjectCommand, GetObjectCommand} = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
@@ -88,6 +91,11 @@ const createEvent = async (req, res) => {
 
     const EventObject = JSON.parse(JSON.stringify(req.body));
     EventObject.tags = JSON.parse(EventObject.tags);
+    console.log(EventObject.date)
+    console.log(EventObject.date2)
+    
+    EventObject.date = new Date(EventObject.date).addHours(7).toISOString();
+    EventObject.date2 = new Date(EventObject.date2).addHours(7).toISOString();
     try 
     {
         //first attempt an image upload!
