@@ -43,6 +43,7 @@ function UserProfile() {
         axios.get('http://localhost:4000/events/profile', {withCredentials: true}) 
             .then(function(response) {
                 console.log(response);
+                console.log("data: ", response.data);
                 const userEvents = response.data;
 
                 setProfileEventData(userEvents);
@@ -87,13 +88,14 @@ function UserProfile() {
     const elements = eventData.map((e, index) => 
         <EventCard 
         key={index}
-        title={e.title}
+        title={e.name}
         date={stringToDate(e.date)}
         date2={handleEndTime(e.date2)}
         flyer={e.flyer}
         description={e.description}
         tags={e.tags}
         organization={e.organization}
+        _id={e._id}
      /> )
     return (
         <>

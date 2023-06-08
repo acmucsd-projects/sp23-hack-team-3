@@ -120,34 +120,34 @@ const createEvent = async (req, res) => {
     return res.status(201).json({message: "Successful event creation"});
 }
 
-// const deleteEvent = async (req, res) => {
-//     const {
-//         id
-//     } = req.params
+const deleteEvent = async (req, res) => {
+    const {
+        id
+    } = req.params
 
-//     try 
-//     {
-//         //we have event's ID
-//         //grab orgID from event
-//         //with orgID, find Organization
-//         //does org's userID array contain req.user._id? 
-//         //if so, we can delete
-//         //if not, or org just doesn't exist, we do not delete and say permissions aren't valid
+    try 
+    {
+        //we have event's ID
+        //grab orgID from event
+        //with orgID, find Organization
+        //does org's userID array contain req.user._id? 
+        //if so, we can delete
+        //if not, or org just doesn't exist, we do not delete and say permissions aren't valid
 
-//         const targetEvent = await Event.findById(id);
-//         const orgID = targetEvent.orgID;
-//         const targetOrg = await Organization.findById(mongoose.Types.ObjectId(orgID));
-//         if (!targetOrg || !targetOrg.userID.includes(req.user._id))
-//         {
-//             throw new Error("You don't have permissions to delete this event");
-//         }
-//         await Event.findByIdAndRemove(id);
-//     }
-//     catch (error) {
-//         return res.status(404).json({message: `Error in event deletion: ${error.message}`});
-//     }
-//     return res.status(201).json({message: "Successful event deletion"});
-// }
+        const targetEvent = await Event.findById(id);
+        const orgID = targetEvent.orgID;
+        const targetOrg = await Organization.findById(mongoose.Types.ObjectId(orgID));
+        if (!targetOrg || !targetOrg.userID.includes(req.user._id))
+        {
+            throw new Error("You don't have permissions to delete this event");
+        }
+        await Event.findByIdAndRemove(id);
+    }
+    catch (error) {
+        return res.status(404).json({message: `Error in event deletion: ${error.message}`});
+    }
+    return res.status(201).json({message: "Successful event deletion"});
+}
 
 // const updateEvent = async (req, res) => {
 //     const {
@@ -197,4 +197,4 @@ const createEvent = async (req, res) => {
 //     res.status(200).json(event)
 // }
 
-module.exports = { getEvents, createEvent, getProfileEvents};
+module.exports = { getEvents, createEvent, getProfileEvents, deleteEvent};

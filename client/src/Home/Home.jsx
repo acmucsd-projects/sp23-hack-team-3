@@ -29,7 +29,7 @@ export default function Home() {
     function stringToDate(inputDate) {
         let date = new Date(inputDate);
         // remove the seconds
-        const dateString =`${date.toLocaleDateString()}, ${date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+        const dateString =`${date.toString().substring(0,11).trim()}, ${date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
         return dateString;
     }
 
@@ -41,18 +41,7 @@ export default function Home() {
     
 
     useEffect(() => {
-        
 
-        // const handleCookieLogic = () => {
-        //     console.log("cookie in Post: ", Cookies.get('connet.sid'))
-        //     console.log("not cookie: ", !Cookies.get('connet.sid'))
-        //     if( Cookies.get('connect.sid') != undefined ){
-        //         setLoggedIn(true)
-        //     }
-        //   };
-      
-        // // Wait for the DOM content to load
-        // document.addEventListener('DOMContentLoaded', handleCookieLogic);
         axios.get('http://localhost:4000/logged', {withCredentials: true})
         .then( response => {
             console.log(response.data.logged)
@@ -67,11 +56,7 @@ export default function Home() {
         API.getEvents().then((response) => {
         setEventData(response.data);
         });
-        
-        // Clean up the event listener when the component unmounts
-        // return () => {
-        //     document.removeEventListener('DOMContentLoaded', handleCookieLogic);
-        // };
+
     }, []);
 
     
@@ -94,10 +79,12 @@ export default function Home() {
                             title={e.name}
                             date={stringToDate(e.date)}
                             date2={handleEndTime(e.date2)}
+                            location={e.location}
                             flyer={e.flyer}
                             description={e.description}
                             tags={e.tags}
                             organization={e.organization}
+                            del={false}
                             />
                         ))
                     }

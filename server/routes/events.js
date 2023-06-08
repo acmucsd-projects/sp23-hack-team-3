@@ -22,7 +22,7 @@ const s3 = new S3Client({
 
 //actual routing, revamped (following charvi example code)
 router.get('/', eventController.getEvents);
-router.get('/profile', /*sessionHandler.ensureAuthenticated,*/ eventController.getProfileEvents);
+router.get('/profile', sessionHandler.ensureAuthenticated, eventController.getProfileEvents);
 router.post('/',  sessionHandler.ensureAuthenticated, upload.single('flyer'), eventController.createEvent);
 
 router.post('/imagetest',  /*sessionHandler.ensureAuthenticated,*/ upload.single('flyer'), async (req, res) => {
@@ -50,7 +50,7 @@ router.post('/imagetest',  /*sessionHandler.ensureAuthenticated,*/ upload.single
 
 
 //DONT ADD THESE ROUTES UNTIL AUTHENTICATION PROPERLY SETUP (DO IT LATER)
-//router.delete('/:id', eventController.deleteEvent);
+router.delete('/:id', sessionHandler.ensureAuthenticated, eventController.deleteEvent);
 //router.patch('/:id', eventController.updateEvent);
 // router.get('/:id', eventController.getEvent);
 

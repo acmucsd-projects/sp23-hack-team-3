@@ -2,7 +2,6 @@ import React, {useState} from "react"
 import LogoBar from '../Component/LogoBar';
 import axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
-import Cookies from 'js-cookie'
 import { useEffect } from "react";
 
 export default function Login (){
@@ -13,22 +12,8 @@ export default function Login (){
     const [failed, setFailed] = useState(false)
     const navigate = useNavigate()
 
-    // let loggedIn = false
-
-    // const location = useLocation();
-    // if( location.state && location.state.loggedIn){
-    //     loggedIn = true
-    // }
-
-    // if( loggedIn ){
-    //     navigate('/')
-    // }
-
     useEffect( () => {
-        // if( Cookies.get('connect.sid') != undefined ){
-        //     navigate('/')
-        // }
-        axios.get('http://localhost:4000/logged')
+        axios.get('http://localhost:4000/logged', {withCredentials: true})
         .then( response => {
             console.log(response.data.logged)
             if( response.data.logged === true ){
