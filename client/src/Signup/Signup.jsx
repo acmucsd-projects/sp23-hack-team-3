@@ -26,7 +26,7 @@ export default function Signup (){
 
         console.log(payload);
 
-        axios.post('http://localhost:4000/users/login', payload, {withCredentials: true})
+        axios.post('http://localhost:4000/users/register', payload, {withCredentials: true})
             .then(function (response){
                 console.log("ok: ", response.status === 201 );
 

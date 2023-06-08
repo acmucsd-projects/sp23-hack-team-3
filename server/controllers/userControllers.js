@@ -23,9 +23,9 @@ const registerUser = async (req, res) => {
         const createdResult = await User.create(UserObject);
         // console.log(createdResult);
         
-        const orgObject = {orgName: UserObject.organization, userID: [createdResult._id], socials: []};
-        // console.log(orgObject);
-        await Organization.create(orgObject);
+        // const orgObject = {orgName: UserObject.organization, userID: [createdResult._id], socials: []};
+        // // console.log(orgObject);
+        // await Organization.create(orgObject);
     }
     catch (error) {
         return res.status(404).json({message: `Error in event creation: ${error.message}`});
