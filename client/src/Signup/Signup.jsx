@@ -48,7 +48,7 @@ export default function Signup (){
         .then( response => {
             console.log(response.data.logged)
             if( response.data.logged === true ){
-                navigate('/')
+                navigate('/login')
             }
         })
         .catch( err => {

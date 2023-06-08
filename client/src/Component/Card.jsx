@@ -10,6 +10,8 @@ import zIndex from "@mui/material/styles/zIndex";
 
 export default function EventCard({ title, date, date2, location, flyer, description, tags, organization, del, _id, setMapCenter, setZoom, latitude, longitude }) {
 
+
+  
   const [enlargeFlyer, setEnlargeFlyer] = useState(false)
 
   const handleDelete = () => {
@@ -31,6 +33,16 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
     setZoom(17)
   }
   
+  const handleOpenFlyer = () =>{
+    setEnlargeFlyer(true)
+    document.body.style.overflow = 'hidden';
+  }
+
+  const handleCloseFlyer = () =>{
+    setEnlargeFlyer(false)
+    document.body.style.overflow = 'auto';
+  }
+  
   return (
     <>
     <Card sx={{ width: "45vw", height: "27vh", marginTop: "3.5vh" }}>
@@ -50,7 +62,7 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
               sx={{ height: "25vh", width: "13vw", padding: "0.5vw", cursor: 'pointer' }}
               image={flyer}
               alt=""
-              onClick={() => setEnlargeFlyer(true)}
+              onClick={handleOpenFlyer}
             />
             
           </div>
@@ -90,10 +102,10 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
 
     {
       enlargeFlyer && 
-      <div style={{ top: '100px', left: 0, position: 'absolute', backdropFilter: 'blur(10px)', height: '100%', width: '50%', display: 'flex', flexDirection: 'flex-col', justifyContent: 'start', alignItems: 'start', zIndex: '1' }}>
+      <div style={{ top: '100px', left: '0', position: 'fixed', backdropFilter: 'blur(10px)', height: '100%', width: '50%', display: 'flex', flexDirection: 'flex-col', justifyContent: 'flex-start', alignItems: 'start', zIndex: '1' }}>
         <button
-            style={{ top: 0, left: 0, display: 'flex', alignItems: 'start', justifyContent: 'start', paddingTop: 0}}
-            onClick={()=>setEnlargeFlyer(false)}
+            style={{ display: 'flex', alignItems: 'start', justifyContent: 'start', marginTop: '5vh', marginLeft: '2vw'}}
+            onClick={handleCloseFlyer}
           >
             <svg
               fill={"#ffffff"}
@@ -105,7 +117,7 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
               <path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" />
             </svg>
           </button>
-        <img src={flyer} style={{width: '40vw', alignSelf: 'center' }}/>
+        <img src={flyer} style={{width: '80%', alignSelf: 'center' }}/>
       </div>
     }
     </>
