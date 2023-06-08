@@ -94,8 +94,6 @@ function Post(){
     const dropDownChange = (e) => {
         setValue(e.target.value)
     }
-    console.log("val: ", val)
-    console.log(lt[val])
 
 
     const handleFlyerUpload = async (event) => {
@@ -144,8 +142,8 @@ function Post(){
                     }
                 })
                 .catch(error => {
-                    console.log(error);
-                    if( error.reponse.status === 409 ){
+                    console.log("Error in post: ", error);                    
+                    if( error.response.status === 409 ){
                         setFailed(true)
                     }
                     
@@ -166,15 +164,15 @@ function Post(){
                     <div style = {{ marginTop: 10 }}>These information will be the first impression for your potential event-goers, so be clear, descriptive, and unique!</div>
                 </div>
                 <div className="form-control" style = {{ marginTop: 30, textAlign: "center" }}>
-                    <input type="text" placeholder="Event Title" onChange={e => setTitle(e.target.value)} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
+                    <input type="text" placeholder="Event Title" onChange={e => setTitle(e.target.value)} reqruied style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>
                 <div className="form-control" style = {{ marginTop: 20, textAlign: "center" }}>
-                    <input type="text" placeholder="Organizer" onChange={e => setOrganizer(e.target.value)} style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
+                    <input type="text" placeholder="Organizer" onChange={e => setOrganizer(e.target.value)} reqruied style= {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>
                 
                 <div className="locationDropDown" style = {{ marginTop: 20, textAlign: "center" }}>
-                    <select value = {val} onChange = {dropDownChange} style={{ width: '51%', height: '40px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px'}} >
-                        
+                    <select defaultValue="" reqruied onChange = {dropDownChange} style={{ width: '51%', height: '40px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px'}} >
+                        <option value="" disabled>-- select location --</option>
                         {Object.keys(lt).map((lo, inx) => (
                         <option value={inx}>{lo}</option>))}
                         
@@ -188,7 +186,7 @@ function Post(){
                             name="date"
                             onChange={e => setDate(e.target.value)}
                             min={new Date().toISOString().split("T")[0]}
-
+                            reqruied
                             style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5 }} 
                         />
                     </div>
@@ -216,6 +214,7 @@ function Post(){
                         type="text" 
                         placeholder="One sentence description of the event (max 150 characters)" 
                         name="description" 
+                        reqruied
                         onChange = { e => setDescription(e.target.value) } 
                         style = {{ width: '50%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 8, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 50, fontSize: '16px' }} 
                     />
@@ -256,7 +255,7 @@ function Post(){
                     />
                 </div>
 
-                { failed && <p style={{ color: 'red', textAlign: 'center' }}>Posting failed. Please try again.</p>}
+                { failed && <p style={{ color: 'red', textAlign: 'center' }}>Posting failed. Please make sure to fill in all Basic Information and try again.</p>}
 
                 {/* <button onClick={handlePostTag}>testing</button> */}
                 <div className="form-control" style = {{ marginTop: 30, marginBottom: 50, width: '50%', marginLeft: 'auto', marginRight: 'auto' }}>

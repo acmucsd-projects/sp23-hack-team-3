@@ -84,7 +84,7 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
               
               <div >
                 {/* <p>Test Tag</p> */}
-                <div style={{ marginTop: "2vh", marginBottom: "2vh" }}>{
+                <div style={{ marginTop: "2vh", marginBottom: "2vh", display: 'flex', flexWrap: 'wrap', gap: '2%' }}>{
                   tags.map(tag => <Tag text={tag}/>)
                 }</div>
                 <Typography variant="body2" color="text.secondary">
