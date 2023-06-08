@@ -184,6 +184,8 @@ function Post(){
                             type="date" 
                             name="date"
                             onChange={e => setDate(e.target.value)}
+                            min={new Date().toISOString().split("T")[0]}
+
                             style = {{ marginTop: 20, fontSize: '18px', backgroundColor: '#D9D9D9', borderRadius: 8, border: 0, outline: 'solid 2', outlineColor: 'black', padding: 5 }} 
                         />
                     </div>

@@ -6,6 +6,7 @@ import Tag from "./Tag";
 import { CardActionArea } from "@mui/material";
 import axios from 'axios'
 import { useState } from 'react'
+import zIndex from "@mui/material/styles/zIndex";
 
 export default function EventCard({ title, date, date2, location, flyer, description, tags, organization, del, _id, setMapCenter, setZoom, latitude, longitude }) {
 
@@ -88,11 +89,22 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
 
     {
       enlargeFlyer && 
-      <div style={{ top: 0, left: 0, position: 'absolute', border: 'solid', backgroundColor: 'white' }}>
-        <div>
-          x
-        </div>
-        hellllllo
+      <div style={{ top: '100px', left: 0, position: 'absolute', backdropFilter: 'blur(10px)', height: '100%', width: '50%', display: 'flex', flexDirection: 'flex-col', justifyContent: 'start', alignItems: 'start', zIndex: '1' }}>
+        <button
+            style={{ top: 0, left: 0, display: 'flex', alignItems: 'start', justifyContent: 'start', paddingTop: 0}}
+            onClick={()=>setEnlargeFlyer(false)}
+          >
+            <svg
+              fill={"#ffffff"}
+              xmlns="http://www.w3.org/2000/svg"
+              height="48"
+              viewBox="0 96 960 960"
+              width="48"
+            >
+              <path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" />
+            </svg>
+          </button>
+        <img src={flyer} style={{width: '40vw', alignSelf: 'center' }}/>
       </div>
     }
     </>
