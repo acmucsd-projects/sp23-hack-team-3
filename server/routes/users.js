@@ -26,13 +26,13 @@ router.post('/login', sessionHandler.alreadyAuthenticatedLoginRegister, function
   })(req, res, next);
 });
 
-router.post('/logout', function (req, res) {
+router.post('/logout', sessionHandler.ensureAuthenticated, function (req, res) {
   req.logout(function(err) {
     if (err) 
     { 
       return next(err); 
     }
-    res.status(200).json({ message: "Unsuccessful logout", logged: false });
+    return res.status(200).json({ message: "Successful logout" });
   });
 });
 
