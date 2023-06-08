@@ -11,7 +11,7 @@ function Post(){
 
     const navigate = useNavigate();
 
-    const [objtest, setobjtest] = useState(JSON.parse(lt));
+    //const [objtest, setobjtest] = useState(JSON.parse(lt));
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [organizer, setOrganizer] = useState("");
@@ -68,36 +68,13 @@ function Post(){
 
     useEffect( () => {
 
-
         const lt_list = Object.keys(lt);
         const v_list = Object.values(lt);
-
-        const index = parseInt(val)
-        console.log(v_list.at(index).lng)
+        // const objtest = JSON.parse(lt);
 
         setLocation(lt_list[val]);
-        setlng(v_list.at(index).lng);
-        setlat(v_list.at(index).lat);
-        // const lt_list = Object.keys(lt);
-        // const v_list = Object.values(lt);
-        // // const objtest = JSON.parse(lt);
-        // // console.log("YOO");
-        // // console.log(objtest);
-
-        // // console.log((val));
-        // // console.log(v_list);
-        // // console.log(lt_list);
-        // // const valint = parseInt(val);
-        // // console.log(val)
-        // // console.log(typeof(val))
-        
-        // // console.log(typeof(1));
-        // // console.log(parseInt(val))
-        // // console.log(typeof(parseInt(val)))
-        // // console.log(v_list[val].lng);
-        // setLocation(lt_list[val]);
-        // setlng(v_list.at(parseInt(val)).lng);
-        // setlat(v_list.at(parseInt(val)).lat);
+        setlng(v_list.at(parseInt(val)).lng);
+        setlat(v_list.at(parseInt(val)).lat);
     }, [val])
     
     const handleSetStartTime = (e) => {

@@ -124,6 +124,7 @@ const createEvent = async (req, res) => {
 
     }
     catch (error) {
+        console.log(error.message);
         return res.status(409).json({message: `Error in event creation: ${error.message}`});
     }
     return res.status(201).json({message: "Successful event creation"});
