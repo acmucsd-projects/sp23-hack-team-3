@@ -8,7 +8,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import zIndex from "@mui/material/styles/zIndex";
 
-export default function EventCard({ title, date, date2, location, flyer, description, tags, organization, del, _id, setMapCenter, setZoom, latitude, longitude }) {
+export default function EventCard({ title, date, date2, location, flyer, description, tags, organization, del, _id, setMapCenter, setZoom, latitude, longitude, popup }) {
 
 
   
@@ -42,6 +42,7 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
     setEnlargeFlyer(false)
     document.body.style.overflow = 'auto';
   }
+  console.log("popup: ", {popup})
   
   return (
     <>
@@ -101,7 +102,7 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
     </Card>
 
     {
-      enlargeFlyer && 
+      popup && enlargeFlyer && 
       <div style={{ top: '100px', left: '0', position: 'fixed', backdropFilter: 'blur(10px)', height: '100%', width: '50%', display: 'flex', flexDirection: 'flex-col', justifyContent: 'flex-start', alignItems: 'start', zIndex: '1' }}>
         <button
             style={{ display: 'flex', alignItems: 'start', justifyContent: 'start', marginTop: '5vh', marginLeft: '2vw'}}

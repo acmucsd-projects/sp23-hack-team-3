@@ -98,6 +98,7 @@ function UserProfile() {
         location={e.location}
         del={true}
         _id={e._id}
+        popup={false}
      /> )
     return (
         <>
