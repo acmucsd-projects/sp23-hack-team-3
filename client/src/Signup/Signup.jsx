@@ -63,9 +63,9 @@ export default function Signup (){
             <form style={{ display: "flex", flexDirection: "column"}} onSubmit={handleRegister}>
                 <h1 style = {{ marginTop: 50, textAlign: "center" }}>Create Your Account</h1>
                 
-                <div className="form-control" style = {{ marginTop: 30, textAlign: "center" }}>
+                {/* <div className="form-control" style = {{ marginTop: 30, textAlign: "center" }}>
                     <input type="text" placeholder="Organization" name="organization" required onChange={e => setOrg(e.target.value)} style= {{ width: '35%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 5, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
-                </div>
+                </div> */}
                 <div className="form-control" style = {{ marginTop: 30, textAlign: "center" }}>
                     <input type="email" placeholder="Email" name="email" required onChange={e => setEmail(e.target.value)} style= {{ width: '35%', height: '30px', backgroundColor: '#D9D9D9', borderRadius: 5, paddingLeft: 10, border: 0, outline: 'solid 2', outlineColor: 'black', paddingTop: 5, paddingBottom: 5, fontSize: '16px' }} />
                 </div>

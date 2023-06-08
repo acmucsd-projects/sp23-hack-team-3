@@ -103,7 +103,7 @@ function UserProfile() {
         <>
             {/**Logo Here */}
             <LogoBar/>
-            <h1 style = {{marginLeft: 80}}>Your Profile</h1>
+            {/* <h1 style = {{marginLeft: 80}}>Your Profile</h1>
             <div className='UserProfile'>
                 <div style = {{marginInline: 50}}>
                     {
@@ -113,7 +113,7 @@ function UserProfile() {
                          /> )    
                     }
                 </div>
-            </div>
+            </div> */}
             {/** Implementation of Events */}
             <h1 style = {{textAlign: 'center'}}>Your Events</h1>
             <div className='row'>
