@@ -124,7 +124,7 @@ function Post(){
         formData.append("lng", lng);
         formData.append("lat", lat);
 
-        const config = {     
+        const config = {    
             headers: { 'content-type': 'multipart/form-data' }
         }
 
