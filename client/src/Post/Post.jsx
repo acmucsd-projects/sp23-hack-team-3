@@ -11,15 +11,16 @@ function Post(){
 
     const navigate = useNavigate();
 
+    const [objtest, setobjtest] = useState(JSON.parse(lt));
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [organizer, setOrganizer] = useState("");
     const [date, setDate] = useState("");
     const [s_time, setStartTime] = useState("");
     const [e_time, setEndTime] = useState("");
-    const [location, setLocation] = useState("PC");
-    const [lng, setlng] = useState("32.8879708");
-    const [lat, setlat] = useState("-117.2447013");
+    const [location, setLocation] = useState("");
+    const [lng, setlng] = useState("");
+    const [lat, setlat] = useState("");
     const [tag, setTag] = React.useState({
         Free_Food: false,
         Free_Boba: false,
@@ -66,12 +67,37 @@ function Post(){
     };
 
     useEffect( () => {
+
+
         const lt_list = Object.keys(lt);
         const v_list = Object.values(lt);
-        
+
+        const index = parseInt(val)
+        console.log(v_list.at(index).lng)
+
         setLocation(lt_list[val]);
-        setlng(v_list[0].lng);
-        setlat(v_list[0].lat);
+        setlng(v_list.at(index).lng);
+        setlat(v_list.at(index).lat);
+        // const lt_list = Object.keys(lt);
+        // const v_list = Object.values(lt);
+        // // const objtest = JSON.parse(lt);
+        // // console.log("YOO");
+        // // console.log(objtest);
+
+        // // console.log((val));
+        // // console.log(v_list);
+        // // console.log(lt_list);
+        // // const valint = parseInt(val);
+        // // console.log(val)
+        // // console.log(typeof(val))
+        
+        // // console.log(typeof(1));
+        // // console.log(parseInt(val))
+        // // console.log(typeof(parseInt(val)))
+        // // console.log(v_list[val].lng);
+        // setLocation(lt_list[val]);
+        // setlng(v_list.at(parseInt(val)).lng);
+        // setlat(v_list.at(parseInt(val)).lat);
     }, [val])
     
     const handleSetStartTime = (e) => {

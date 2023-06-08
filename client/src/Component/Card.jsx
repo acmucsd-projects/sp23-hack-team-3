@@ -16,6 +16,7 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
     axios.delete(`http://localhost:4000/events/${_id}`, {withCredentials: true})
     .then( res => {
       console.log(res)
+      window.location.reload(false);
     })
     .catch(err => {
       console.log("Error on delete: ", err)
