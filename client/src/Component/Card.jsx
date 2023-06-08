@@ -42,7 +42,6 @@ export default function EventCard({ title, date, date2, location, flyer, descrip
     setEnlargeFlyer(false)
     document.body.style.overflow = 'auto';
   }
-  console.log("popup: ", {popup})
   
   return (
     <>
