@@ -31,7 +31,7 @@ export default function Signup (){
                 console.log("ok: ", response.status === 201 );
 
                 if(response.status === 201){
-                    navigate('/', { state: {loggedIn: true} });
+                    navigate('/login');
                 } 
             })
             .catch(error => {
@@ -48,7 +48,7 @@ export default function Signup (){
         .then( response => {
             console.log(response.data.logged)
             if( response.data.logged === true ){
-                navigate('/login')
+                navigate('/')
             }
         })
         .catch( err => {
