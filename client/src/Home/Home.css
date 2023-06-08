@@ -19,10 +19,6 @@
     height: calc(100vh - 90px);
     position: sticky;
     top: 90px;
-    /* border-style: solid;
-    border-width: 15px;
-    border-color: #5785E8;
-    border-radius: 10px; */
 }
 
 .pin {
@@ -33,5 +29,5 @@
 .pin-text {
     font-size: 1.3em;
     white-space: nowrap;
-    text-shadow: 1px 1px 2px lightgrey;
+    text-shadow: 1px 1px 2px silver;
 }
