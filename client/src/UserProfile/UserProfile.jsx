@@ -99,6 +99,8 @@ function UserProfile() {
         del={true}
         _id={e._id}
         popup={false}
+        setMapCenter={() => {}}
+        setZoom={() => {}}
      /> )
     return (
         <>
