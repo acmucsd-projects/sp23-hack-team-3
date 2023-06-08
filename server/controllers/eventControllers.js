@@ -26,7 +26,8 @@ const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex'
 //actual controllers
 const getEvents = async (req, res) => {
     const events = await Event.find({}).sort({
-        createdAt: -1
+        //createdAt: -1
+        'date': 1
     })
     for (x in events)
     {
