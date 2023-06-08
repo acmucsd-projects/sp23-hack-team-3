@@ -16,7 +16,7 @@ export default function Navbar({ loggedIn }){
     }
     
     return(
-       <div style={{ display:'flex', justifyContent: 'space-around', alignItems: 'center', boxShadow: '0px 3px #1CDDDB', position: 'sticky', top: 0, zIndex: 1, backgroundColor: "white", height: '100px' }}>
+       <div style={{ display:'flex', justifyContent: 'space-around', alignItems: 'center', boxShadow: '0px 3px #1CDDDB', position: 'sticky', top: 0, zIndex: 1, backgroundColor: "white", height: '100px', position: 'fixed' }}>
             <div>
                 <img src="../../eventify-logo.png" alt="Logo" style = {{ width: '28%', marginTop: 'auto', marginBottom: 'auto', marginLeft: '5vh'}} />
             </div>
