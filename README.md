@@ -1,8 +1,6 @@
-# 💻 MERN stack template
+# Eventify
 
-Template for building projects with the MERN (MongoDB, Express, React, Node.js) stack.
-This template was generated using `create-react-app` and `express-generator` for the
-client and server, respectively.
+A webapp for UCSD event organizers to post their events in one place so students can more easily keep track of on-campus events.  
 
 ## Prerequisites
 
